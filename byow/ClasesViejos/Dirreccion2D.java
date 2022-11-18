@@ -1,7 +1,6 @@
-package byow.Core;
+package byow.ClasesViejos;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Dirreccion2D {

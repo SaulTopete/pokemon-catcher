@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.ClasesViejos;
 
 /** Inspired by:
  * @Source: https://teamfarce.github.io/Lorem-Ipsum/javadoc/me/lihq/game/models/Vector2Int.html

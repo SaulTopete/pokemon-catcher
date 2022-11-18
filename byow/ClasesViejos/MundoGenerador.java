@@ -1,9 +1,6 @@
-package byow.Core;
+package byow.ClasesViejos;
 
-import java.lang.invoke.DirectMethodHandle$Holder;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
 
 //was static in video, maybe make class static?
 public class MundoGenerador {

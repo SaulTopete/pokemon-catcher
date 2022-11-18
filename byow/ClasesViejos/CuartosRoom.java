@@ -1,4 +1,6 @@
-package byow.Core;
+package byow.ClasesViejos;
+
+import byow.Core.RandomUtils;
 
 import java.util.Random;
 
