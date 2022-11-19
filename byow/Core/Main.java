@@ -13,11 +13,15 @@ public class Main {
             Engine engine = new Engine();
             engine.interactWithInputString(args[1]);
             System.out.println(engine.toString());
-        } else {
+        // DO NOT CHANGE THESE LINES YET ;)
+        } else if (args.length == 2 && args[0].equals("-p")) {
+            Engine engine = new Engine();
+            engine.interactWithKeyboard();
+        }
+        // DO NOT CHANGE THESE LINES YET ;)
+        else {
             Engine engine = new Engine();
             engine.interactWithKeyboard();
         }
     }
-
-    //do you see this??
 }
