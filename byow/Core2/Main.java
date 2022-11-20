@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.Core2;
 
 /** This is the main entry point for the program. This class simply parses
  *  the command line inputs, and lets the byow.Core.Engine class take over
@@ -13,11 +13,15 @@ public class Main {
             Engine engine = new Engine();
             engine.interactWithInputString(args[1]);
             System.out.println(engine.toString());
-        } else {
+        // DO NOT CHANGE THESE LINES YET ;)
+        } else if (args.length == 2 && args[0].equals("-p")) {
+            Engine engine = new Engine();
+            engine.interactWithKeyboard();
+        }
+        // DO NOT CHANGE THESE LINES YET ;)
+        else {
             Engine engine = new Engine();
             engine.interactWithKeyboard();
         }
     }
-
-    //do you see this??
 }

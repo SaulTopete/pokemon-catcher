@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.Core2;
 
 /** Inspired by:
  * @Source: https://stackoverflow.com/questions/4777622/creating-a-list-of-pairs-in-java*/
