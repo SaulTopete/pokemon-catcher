@@ -2,6 +2,8 @@ package byow.Core2;
 
 import java.util.ArrayList;
 
+//Change ArrayList to Array?
+
 public class Graph {
     public static int[][] connectAll(int roomNum, ArrayList<Room> rooms, int[][] graph) {
         for (int i = 0; i < roomNum; i++) {
