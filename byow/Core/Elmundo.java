@@ -32,8 +32,8 @@ public class Elmundo {
     public void nuevoMundoNada(TETile[][] tiles) {
         for (int equis = 0; equis < ANCHO; equis++) {
             for (int ygriega = 0; ygriega < ALTURA; ygriega++) {
+                tiles[equis][ygriega] = Tileset.WATER;
                 yaFueVisitado[equis][ygriega] = false;
-                tiles[equis][ygriega] = Tileset.GRASS;
             }
         }
     }
@@ -58,9 +58,9 @@ public class Elmundo {
                 boolean cdn = (x!= cero && y != cero);
                 boolean cdn2 = (x == uno && y == uno);
                 if (cdn && (x != wcondicional1) && (y != hcondicional2)) {
-                    tiles[nuevoXx][nuevoyy] =  Tileset.SAND;
+                    tiles[nuevoXx][nuevoyy] =  Tileset.FLOOR;
                     if (cdn2 && numeroCero) {
-                        tiles[nuevoXx][nuevoyy] = Tileset.FLOOR;
+                        tiles[nuevoXx][nuevoyy] = Tileset.SAND;
                     }
                     if (cdn2 && nuevoNumero) {
                         tiles[nuevoXx][nuevoyy] = Tileset.AVATAR;
@@ -68,7 +68,7 @@ public class Elmundo {
                         //We need to set the avatar points.
                     }
                 } else {
-                    tiles[nuevoXx][nuevoyy] = Tileset.MOUNTAIN;
+                    tiles[nuevoXx][nuevoyy] = Tileset.WALL;
                 }
             }
         }
@@ -137,14 +137,70 @@ public class Elmundo {
         }
     }
 
-
-    //This is the last mehod we need for World Generator, but I don't find a good way to write without
-    // looking like my friend's. The method is outOfBounds()
     public boolean fueraDeLosLimites(int equis, int ygriega) {
-        return true;
+        boolean retornoSies = false;
+        boolean xFueraDeLimites = equis > ANCHO && equis <= 0;
+        boolean yFueraDeLimites = ygriega > ALTURA && ygriega <= 0;
+        if (xFueraDeLimites || yFueraDeLimites){
+            retornoSies = true;
+        }
+        return retornoSies;
+    }
+
+    public void limpiadorAlpha(int x, int y, TETile[][] rt) {
+        int nuevox = x + 1;
+        int nuevox2 = x - 1;
+        int nuevoy = y + 1;
+        int nuevoy2 = y - 1;
+        boolean uno = fueraDeLosLimites(nuevox, y);
+        boolean dos = fueraDeLosLimites(nuevox2, y);
+        boolean tres = fueraDeLosLimites(x, nuevoy);
+        boolean cuatro = fueraDeLosLimites(x, nuevoy2);
+        if (!uno && rt[nuevox][y] == Tileset.WATER) {
+            rt[nuevox][y] = Tileset.WALL;
+        }
+        if (!dos && rt[nuevox2][y] == Tileset.WATER) {
+            rt[nuevox2][y] = Tileset.WALL;
+        }
+        if (!tres && rt[x][nuevoy] == Tileset.WATER) {
+            rt[x][nuevoy] = Tileset.WALL;
+        }
+        if (!cuatro && rt[x][nuevoy2] == Tileset.WATER) {
+            rt[x][nuevoy2] = Tileset.WALL;
+        }
+    }
+
+    public void limpiadorBetha(int x, int y, TETile[][] rt) {
+        int nuevox = x + 1;
+        int nuevox2 = x - 1;
+        int nuevoy = y + 1;
+        int nuevoy2 = y - 1;
+        boolean uno = fueraDeLosLimites(nuevox2, nuevoy);
+        boolean dos = fueraDeLosLimites(nuevox, nuevoy);
+        boolean tres = fueraDeLosLimites(nuevox, nuevoy2);
+        boolean cuatro = fueraDeLosLimites(nuevox2, nuevoy2);
+        if(!uno && rt[nuevox2][nuevoy] == Tileset.WATER) {
+            rt[nuevox2][nuevoy] = Tileset.WALL;
+        }
+        if(!dos && rt[nuevox][nuevoy] == Tileset.WATER) {
+            rt[nuevox][nuevoy] = Tileset.WALL;
+        }
+        if(!tres && rt[nuevox][nuevoy2] == Tileset.WATER) {
+            rt[nuevox][nuevoy2] = Tileset.WALL;
+        }
+        if(!cuatro && rt[nuevox2][nuevoy2] == Tileset.WATER) {
+            rt[nuevox2][nuevoy2] = Tileset.WALL;
+        }
     }
 
     public void limpiador(TETile[][] aleatorioTiles) {
-
+        for (int x = 0; x < ANCHO; x+= 1) {
+            for (int y = 0; y < ALTURA; y+= 1) {
+                if (aleatorioTiles[x][y] == Tileset.FLOOR) {
+                    limpiadorAlpha(x, y, aleatorioTiles);
+                    limpiadorBetha(x, y, aleatorioTiles);
+                }
+            }
+        }
     }
 }
