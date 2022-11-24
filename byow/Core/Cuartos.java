@@ -39,12 +39,14 @@ public class Cuartos {
 
     public int getMiddleX() {
         int startX = getEquisX();
-        return (startX + ancho / 2);
+        int mitadX = startX + ancho / 2;
+        return mitadX;
     }
 
     public int getMiddleY() {
         int startY = getYgriegaY();
-        return (startY + altura / 2);
+        int mitadY = startY + altura / 2;
+        return mitadY;
 
     }
 

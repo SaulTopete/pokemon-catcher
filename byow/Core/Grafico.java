@@ -1,12 +1,13 @@
 package byow.Core;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Grafico {
     /*
     Change how for loop works, maybe use while loop instead.
      */
-    public static int[][] connectarTodo(int numDeCuartos, ArrayList<Cuartos> cuartos, int[][] grafico) {
+    public static int[][] connectarTodo(int numDeCuartos, LinkedList<Cuartos> cuartos, int[][] grafico) {
         for (int i = 0; i < numDeCuartos; i++) {
             for (int j = 0; j < numDeCuartos; j++) {
                 if (i != j) {
@@ -17,7 +18,7 @@ public class Grafico {
         return grafico;
     }
 
-    public static ArrayList primMST(int numDeCuartos, int[][] grafico) {
+    public static LinkedList primMST(int numDeCuartos, int[][] grafico) {
         Boolean[] MST = new Boolean[numDeCuartos];
         int[] peso = new int[numDeCuartos];
         int[] origin = new int[numDeCuartos];
@@ -48,8 +49,8 @@ public class Grafico {
         return obtenerBorde(origin, numDeCuartos);
     }
 
-    public static ArrayList obtenerBorde(int[] origin, int numDeCuartos) {
-        ArrayList<PuntosCardinales> borderPuntos = new ArrayList<>();
+    public static LinkedList obtenerBorde(int[] origin, int numDeCuartos) {
+        LinkedList<PuntosCardinales> borderPuntos = new LinkedList<>();
         int i = 0;
         while (i < numDeCuartos) {
             PuntosCardinales borde = new PuntosCardinales(origin[i], i);
