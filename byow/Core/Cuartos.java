@@ -16,8 +16,8 @@ public class Cuartos {
         int yGriegaPotencial = RandomUtils.uniform(rd, 0, mY);
 
         this.comienzo = new PuntosCardinales<>(equisPotencial, yGriegaPotencial);
-        this.ancho = RandomUtils.uniform(rd, 8, 12);
-        this.altura = RandomUtils.uniform(rd, 8, 12);
+        this.ancho = RandomUtils.uniform(rd, 6, 10);
+        this.altura = RandomUtils.uniform(rd, 6, 10);
         this.numero = numero;
     }
 
@@ -56,11 +56,15 @@ public class Cuartos {
     }
 
     public int coneccionDeCuartos(Cuartos cuarto) {
+//        int distance;
         int equis = this.getEquisX();
         int ygriega = this.getYgriegaY();
-        int equis2 = this.getEquisX();
-        int ygriega2 = this.getYgriegaY();
+        int equis2 = cuarto.getEquisX();
+        int ygriega2 = cuarto.getYgriegaY();
+
+//        distance = (int) Math.sqrt((ygriega2 - ygriega) * (ygriega2 - ygriega) + (equis2 - equis) * (equis2 - equis));
 
         return formulaDistancia(equis, equis2, ygriega, ygriega2);
+//        return distance;
     }
 }

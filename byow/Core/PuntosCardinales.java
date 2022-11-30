@@ -39,4 +39,16 @@ public class PuntosCardinales<Equis, Ygriega> {
         return x.equals(pc.x) && y.equals(pc.y);
     }
 
+//    @Override
+//    public int hashCode() {
+//        int hash = super.hashCode();
+//        hash = 89 * hash + (this.x != null ? this.x.hashCode() : 0);
+//        hash = 89 * hash + (this.y != null ? this.y.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return x + "," + y;
+//    }
 }
