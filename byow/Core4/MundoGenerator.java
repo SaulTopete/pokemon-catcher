@@ -21,7 +21,6 @@ public class MundoGenerator {
         this.Height = height;
         this.aleatorio = new Random();
 //        this.Seed = seed;
-        this.roomArea[width][height] = false;
     }
 
     public MundoGenerator(int width, int height, PuntosCardinales pc) {
@@ -61,10 +60,9 @@ public class MundoGenerator {
     }
 
     public TETile[][] creacionRoom(TETile[][] tiles) {
-        int startingX = randomVal(this.Width);
-        int startingY = randomVal(this.Height);
-        for (int x = startingX; x < randomRoomSize(); x += 1) {
-            for (int y = startingY; y < randomRoomSize(); y += 1) {
+
+        for (int x = 0; x < Width; x += 1) {
+            for (int y = 0; y < Height; y += 1) {
 //                roomArea[x][y] = true;
                 tiles[x][y] = Tileset.FLOWER;
             }
