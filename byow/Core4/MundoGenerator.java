@@ -103,11 +103,11 @@ public class MundoGenerator {
         for (int x = futureBuiltRoom.getStartX(); x < futureBuiltRoom.getEndPointX(); x++) {
             for (int y = futureBuiltRoom.getStartY(); y < futureBuiltRoom.getEndPointY(); y++) {
                 if (roomArea[x][y]) {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     //Need to edit so checking left, right, up, and down doesn't error
