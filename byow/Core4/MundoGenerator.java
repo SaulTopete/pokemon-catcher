@@ -39,7 +39,7 @@ public class MundoGenerator {
         }
     }
 
-    public int roomNumberAletorio(long seed) {
+    public int roomNumberAletorio() {
         return RandomUtils.uniform(aleatorio, 15, 25);
     }
 
@@ -59,15 +59,36 @@ public class MundoGenerator {
         return bl;
     }
 
-    public TETile[][] creacionRoom(TETile[][] tiles) {
-
-        for (int x = 0; x < Width; x += 1) {
-            for (int y = 0; y < Height; y += 1) {
-//                roomArea[x][y] = true;
-                tiles[x][y] = Tileset.FLOWER;
+    private void createRoom(TETile[][] tiles) {
+        int startingX = randomVal(Width);
+        int startingY = randomVal(Height);
+        int sizeX = randomRoomSize() + startingX;
+        int sizeY = randomRoomSize() + startingY;
+        for (int i = startingX; i < sizeX; i += 1) {
+            for (int j = startingY; j < sizeY; j += 1) {
+                tiles[i][j] = Tileset.FLOOR;
+//                createWalls(tiles, i, j, sizeX, sizeY );
             }
         }
-        return tiles;
+    }
+
+    private boolean isValidRoomPos(int roomSize) {
+
+    }
+
+    public void createRooms(TETile[][] tiles) {
+        int randomNumRooms = roomNumberAletorio();
+        for (int i = 0; i < 15; i++) {
+            createRoom(tiles);
+        }
+    }
+
+
+
+    private void createWalls(TETile[][] tiles, int x, int y, int ancho, int altura) {
+        if (x == 0 & y == 0 & x == ancho - 1 &&  y == altura) {
+            tiles[ancho + x][altura + y] = Tileset.WALL;
+        }
     }
 
     private int randomVal(int dimmension) {

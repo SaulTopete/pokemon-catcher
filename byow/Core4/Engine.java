@@ -71,6 +71,7 @@ public class Engine {
         MundoGenerator newWorld = new MundoGenerator(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
         MundoGenerator.canvasFilledNothing(tiles);
+        newWorld.createRooms(tiles);
         ter.renderFrame(tiles);
 
 //        PuntosCardinales avatarPoint = new PuntosCardinales(0, 0);
