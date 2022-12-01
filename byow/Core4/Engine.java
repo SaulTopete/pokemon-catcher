@@ -1,10 +1,7 @@
 package byow.Core4;
 
-import byow.Core3.AvatarControl;
-import byow.Core3.Point;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
 
 public class Engine {
     TERenderer ter = new TERenderer();
@@ -67,10 +64,9 @@ public class Engine {
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-
         MundoGenerator newWorld = new MundoGenerator(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
-        MundoGenerator.canvasFilledNothing(tiles);
+        newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
         ter.renderFrame(tiles);
 
