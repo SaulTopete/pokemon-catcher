@@ -68,6 +68,7 @@ public class Engine {
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
+        newWorld.printBoard();
         ter.renderFrame(tiles);
 
 //        PuntosCardinales avatarPoint = new PuntosCardinales(0, 0);
