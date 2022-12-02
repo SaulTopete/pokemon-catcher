@@ -63,30 +63,27 @@ public class MundoGenerator {
     }
 
     private void createRoom(TETile[][] tiles) {
-        int startingX = randomVal(width);
-        int startingY = randomVal(height);
+        int startPointX = randomVal(width);
+        int startPointY = randomVal(height);
         int randomXDimm = randomRoomSize();
         int randomYDimm = randomRoomSize();
-        int sizeX = randomXDimm + startingX;
-        int sizeY = randomYDimm + startingY;
-        boolean isValidPosition = isValidRoomPos(sizeX, sizeY);
-        boolean overlapped = true;
-        boolean isTouching = false;
-        RoomCoordinates roomStuff = new RoomCoordinates(startingX, startingY, randomXDimm, randomYDimm);
+//        int sizeX = randomXDimm + startPointX;
+//        int sizeY = randomYDimm + startPointY;
+        RoomCoordinates roomStuff = new RoomCoordinates(startPointX, startPointY, randomXDimm, randomYDimm);
+        boolean isValidPosition = isValidRoomPos(roomStuff);
 
-        while (!isValidPosition && overlapped) {
+
+        while (!isValidPosition) {
             roomStuff.setStartX(randomVal(width));
             roomStuff.setStartY(randomVal(height));
             roomStuff.setEndPointX(roomStuff.getStartX() + randomXDimm);
             roomStuff.setEndPointY(roomStuff.getStartY() + randomYDimm);
-            isValidPosition = isValidRoomPos(roomStuff.getEndPointX(), roomStuff.getEndPointY());
-            if (isValidPosition && roomsList.size() > 0) {
-                overlapped = isOverlapping(roomStuff);
-            }
+
+            isValidPosition = isValidRoomPos(roomStuff);
         }
 
-        for (int i = roomStuff.getStartX(); i < roomStuff.getEndPointX(); i += 1) {
-            for (int j = roomStuff.getStartY(); j < roomStuff.getEndPointY(); j += 1) {
+        for (int i = roomStuff.getStartX(); i <= roomStuff.getEndPointX(); i += 1) {
+            for (int j = roomStuff.getStartY(); j <= roomStuff.getEndPointY(); j += 1) {
                 tiles[i][j] = Tileset.FLOWER;
                 roomArea[i][j] = true;
                 roomsList.add(roomStuff);
@@ -95,13 +92,16 @@ public class MundoGenerator {
         }
     }
 
-    private boolean isValidRoomPos(int xLength, int yLength) {
-        return xLength < width - 2 && yLength < height - 2;
+    private boolean isValidRoomPos(RoomCoordinates futureRoomBuilt) {
+        if (futureRoomBuilt.getEndPointX() < width - 3 && futureRoomBuilt.getEndPointY() < height - 3) {
+            return !isOverlapping(futureRoomBuilt);
+        }
+        return false;
     }
 
     private boolean isOverlapping(RoomCoordinates futureBuiltRoom) {
-        for (int x = futureBuiltRoom.getStartX(); x < futureBuiltRoom.getEndPointX(); x++) {
-            for (int y = futureBuiltRoom.getStartY(); y < futureBuiltRoom.getEndPointY(); y++) {
+        for (int x = futureBuiltRoom.getStartX(); x <= futureBuiltRoom.getEndPointX(); x++) {
+            for (int y = futureBuiltRoom.getStartY(); y <= futureBuiltRoom.getEndPointY(); y++) {
                 if (roomArea[x][y]) {
                     return true;
                 }
@@ -141,7 +141,7 @@ public class MundoGenerator {
 
     public void createRooms(TETile[][] tiles) {
         int randomNumRooms = roomNumberAletorio();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < randomNumRooms; i++) {
             createRoom(tiles);
         }
     }
