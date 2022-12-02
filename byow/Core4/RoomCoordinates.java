@@ -3,7 +3,7 @@ package byow.Core4;
 public class RoomCoordinates {
     private int startX;
     private int startY;
-    private int dimmX;
+    private final int dimmX;
     private int dimmY;
     private int endPointX;
     private int endPointY;
@@ -31,16 +31,16 @@ public class RoomCoordinates {
         this.startY = startY;
     }
 
-    public int getDimmX() {
-        return dimmX;
+    public int getMidDimmX() {
+        return getStartX() + (dimmX/2);
     }
 
-    public void setDimmX(int dimmX) {
-        this.dimmX = dimmX;
-    }
+//    public void setDimmX(int dimmX) {
+//        this.dimmX = dimmX;
+//    }
 
-    public int getDimmY() {
-        return dimmY;
+    public int getMidDimmY() {
+        return getStartY() + (dimmY/2);
     }
 
     public void setDimmY(int dimmY) {

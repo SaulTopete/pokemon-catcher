@@ -1,6 +1,6 @@
 package byow.Core4;
 
-import byow.Core3.RandomUtils;
+import byow.Core4.RandomUtils;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
@@ -12,9 +12,11 @@ public class MundoGenerator {
     protected int height;
     //    protected long Seed;
     protected Random random;
-    private boolean[][] roomArea;
+    private final boolean[][] roomArea;
     private ArrayList<RoomCoordinates> roomsList;
     protected PuntosCardinales<Integer, Integer> pc;
+
+    private HashMap graph;
 
     //
     public MundoGenerator(int width, int height) {
@@ -23,6 +25,7 @@ public class MundoGenerator {
         this.roomArea = new boolean[this.width][this.height];
         this.roomsList = new ArrayList<>();
         this.random = new Random();
+        graph = new HashMap(roomsList);
 //        this.Seed = seed;
     }
 
@@ -46,22 +49,6 @@ public class MundoGenerator {
         return RandomUtils.uniform(random, 15, 20);
     }
 
-    public boolean isOutofBound(int x, int y) {
-        boolean verdad = false;
-        if ((x < width) && (x >= 0)) {
-            verdad = true;
-        }
-        if ((y < height) && (y >= 0)) {
-            verdad = true;
-        }
-        return !verdad;
-    }
-
-    public boolean siFueVisitado(int x1, int x2, int y1, int y2) {
-        boolean bl = roomArea[x1 + x2][y1 + y2];
-        return bl;
-    }
-
     private void createRoom(TETile[][] tiles) {
         int startPointX = randomVal(width);
         int startPointY = randomVal(height);
@@ -69,7 +56,7 @@ public class MundoGenerator {
         int randomYDimm = randomRoomSize();
         RoomCoordinates roomStuff = new RoomCoordinates(startPointX, startPointY, randomXDimm, randomYDimm);
         boolean isValidPosition = isValidRoomPos(roomStuff);
-
+        boolean tooClose = false;
 
         while (!isValidPosition) {
             roomStuff.setStartX(randomVal(width));
@@ -80,9 +67,12 @@ public class MundoGenerator {
             roomStuff.setEndPointY(roomStuff.getStartY() + randomYDimm);
 
             isValidPosition = isValidRoomPos(roomStuff);
+//            tooClose = isTouching(roomStuff);
         }
         fillRoomTiles(roomStuff, tiles);
         createWalls(tiles, roomStuff.getStartX(), roomStuff.getStartY(), roomStuff.getEndPointX(), roomStuff.getEndPointY());
+        graph.connectRooms(roomsList);
+        graph.printHashMap(roomsList);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
@@ -155,7 +145,7 @@ public class MundoGenerator {
             tiles[startX][i] = Tileset.WALL;
         }
 
-        for (int i = startX; i <= endX ; i++) {
+        for (int i = startX; i <= endX; i++) {
             tiles[i][startY] = Tileset.WALL;
         }
         for (int i = startX; i <= endX; i++) {
@@ -166,8 +156,8 @@ public class MundoGenerator {
         }
     }
 
-    private int randomVal(int dimmension) {
-        return RandomUtils.uniform(random, 5, dimmension - 3);
+    private int randomVal(int dimension) {
+        return RandomUtils.uniform(random, 5, dimension - 3);
     }
 
     private int randomRoomSize() {
@@ -185,6 +175,10 @@ public class MundoGenerator {
             }
             System.out.println();
         }
+    }
+
+    public void drawHallway() {
+
     }
 }
 

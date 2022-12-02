@@ -31,10 +31,9 @@ public class PuntosCardinales<Equis, Ygriega> {
     }
 
     public boolean equals(Object objeto) {
-        if (!(objeto instanceof PuntosCardinales)) {
+        if (!(objeto instanceof PuntosCardinales pc)) {
             return false;
         }
-        PuntosCardinales pc = (PuntosCardinales) objeto;
         return x.equals(pc.x)
                 && y.equals(pc.y);
     }
