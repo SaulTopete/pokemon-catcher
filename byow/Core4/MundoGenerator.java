@@ -38,12 +38,12 @@ public class MundoGenerator {
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++)
-                tiles[x][y] = Tileset.MOUNTAIN;
+                tiles[x][y] = Tileset.WATER;
         }
     }
 
     public int roomNumberAletorio() {
-        return RandomUtils.uniform(random, 15, 25);
+        return RandomUtils.uniform(random, 15, 20);
     }
 
     public boolean isOutofBound(int x, int y) {
@@ -67,8 +67,6 @@ public class MundoGenerator {
         int startPointY = randomVal(height);
         int randomXDimm = randomRoomSize();
         int randomYDimm = randomRoomSize();
-//        int sizeX = randomXDimm + startPointX;
-//        int sizeY = randomYDimm + startPointY;
         RoomCoordinates roomStuff = new RoomCoordinates(startPointX, startPointY, randomXDimm, randomYDimm);
         boolean isValidPosition = isValidRoomPos(roomStuff);
 
@@ -76,18 +74,23 @@ public class MundoGenerator {
         while (!isValidPosition) {
             roomStuff.setStartX(randomVal(width));
             roomStuff.setStartY(randomVal(height));
+            randomXDimm = randomRoomSize();
+            randomYDimm = randomRoomSize();
             roomStuff.setEndPointX(roomStuff.getStartX() + randomXDimm);
             roomStuff.setEndPointY(roomStuff.getStartY() + randomYDimm);
 
             isValidPosition = isValidRoomPos(roomStuff);
         }
+        fillRoomTiles(roomStuff, tiles);
+        createWalls(tiles, roomStuff.getStartX(), roomStuff.getStartY(), roomStuff.getEndPointX(), roomStuff.getEndPointY());
+    }
 
-        for (int i = roomStuff.getStartX(); i <= roomStuff.getEndPointX(); i += 1) {
-            for (int j = roomStuff.getStartY(); j <= roomStuff.getEndPointY(); j += 1) {
-                tiles[i][j] = Tileset.FLOWER;
+    private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
+        for (int i = room.getStartX(); i <= room.getEndPointX(); i += 1) {
+            for (int j = room.getStartY(); j <= room.getEndPointY(); j += 1) {
+                tiles[i][j] = Tileset.FLOOR;
                 roomArea[i][j] = true;
-                roomsList.add(roomStuff);
-//                createWalls(tiles, i, j, sizeX, sizeY );
+                roomsList.add(room);
             }
         }
     }
@@ -147,9 +150,19 @@ public class MundoGenerator {
     }
 
 
-    private void createWalls(TETile[][] tiles, int x, int y, int ancho, int altura) {
-        if (x == 0 & y == 0 & x == ancho - 1 && y == altura) {
-            tiles[ancho + x][altura + y] = Tileset.WALL;
+    private void createWalls(TETile[][] tiles, int startX, int startY, int endX, int endY) {
+        for (int i = startY; i <= endY; i++) {
+            tiles[startX][i] = Tileset.WALL;
+        }
+
+        for (int i = startX; i <= endX ; i++) {
+            tiles[i][startY] = Tileset.WALL;
+        }
+        for (int i = startX; i <= endX; i++) {
+            tiles[i][endY] = Tileset.WALL;
+        }
+        for (int i = startY; i <= endY; i++) {
+            tiles[endX][i] = Tileset.WALL;
         }
     }
 
@@ -158,7 +171,7 @@ public class MundoGenerator {
     }
 
     private int randomRoomSize() {
-        return RandomUtils.uniform(random, 4, 7);
+        return RandomUtils.uniform(random, 5, 12);
     }
 
     public void printBoard() {
