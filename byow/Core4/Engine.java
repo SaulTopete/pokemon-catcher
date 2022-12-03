@@ -21,12 +21,12 @@ public class Engine {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
-        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, tiles);
+        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
         newWorld.drawHallway(tiles);
-        newWorld.addAvatar(tiles);
         newWorld.printBoard();
+        newWorld.addAvatar(tiles);
         ter.renderFrame(tiles);
     }
 
@@ -70,11 +70,12 @@ public class Engine {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
-        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, tiles);
+        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
         newWorld.drawHallway(tiles);
         newWorld.addAvatar(tiles);
+        newWorld.createPickups(tiles);
         newWorld.printBoard();
         ter.renderFrame(tiles);
         while (!gameOver) {

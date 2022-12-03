@@ -25,12 +25,13 @@ public class Icon {
         this.icon = icon;
     }
 
-    public void getRandomPos(TETile[][] tiles) {
+    public boolean getRandomPos(TETile[][] tiles) {
         while (tiles[posX][posY] != Tileset.FLOOR){
             this.posX = RandomUtils.uniform(random, 0, this.DIM_X - 3);
             this.posY = RandomUtils.uniform(random, 0, this.DIM_Y - 3);
         }
         setPosition(tiles, this.posX, this.posY, this.icon);
+        return true;
     }
 
     private void setPosition(TETile[][] tiles, int posX, int posY, TETile icon) {

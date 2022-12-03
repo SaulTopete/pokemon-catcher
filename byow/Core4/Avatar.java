@@ -10,13 +10,17 @@ public class Avatar extends Icon {
         super(dimmX, dimmY, AVATAR);
     }
 
-    public void move(TETile[][] tiles, char letter, int x, int y) {
+    public void move(TETile[][] tiles, char letter, int x, int y, TETile pickups) {
         if (Character.toUpperCase(letter) == 'W') {
             if (tiles[x][y + 1] == WorldGeneration.FLOORS) {
                 tiles[x][y] = WorldGeneration.FLOORS;
                 tiles[x][y + 1] = AVATAR;
                 setPosY(y + 1);
-                System.out.println("Pressed W");
+            }
+            else if (tiles[x][y + 1] == pickups) {
+                tiles[x][y] = WorldGeneration.FLOORS;
+                tiles[x][y + 1] = AVATAR;
+                setPosY(y + 1);
             }
         }
         if (Character.toUpperCase(letter) == 'S') {
@@ -24,7 +28,11 @@ public class Avatar extends Icon {
                 tiles[x][y] = WorldGeneration.FLOORS;
                 tiles[x][y - 1] = AVATAR;
                 setPosY(y - 1);
-                System.out.println("Pressed S");
+            }
+            else if (tiles[x][y - 1] == pickups) {
+                tiles[x][y] = WorldGeneration.FLOORS;
+                tiles[x][y - 1] = AVATAR;
+                setPosY(y - 1);
             }
         }
         if (Character.toUpperCase(letter) == 'A') {
@@ -32,7 +40,11 @@ public class Avatar extends Icon {
                 tiles[x][y] = WorldGeneration.FLOORS;
                 tiles[x - 1][y] = AVATAR;
                 setPosX(x - 1);
-                System.out.println("Pressed A");
+            }
+            else if (tiles[x - 1][y] == pickups) {
+                tiles[x][y] = WorldGeneration.FLOORS;
+                tiles[x - 1][y] = AVATAR;
+                setPosX(x - 1);
             }
         }
         if (Character.toUpperCase(letter) == 'D') {
@@ -40,9 +52,13 @@ public class Avatar extends Icon {
                 tiles[x][y] = WorldGeneration.FLOORS;
                 tiles[x + 1][y] = AVATAR;
                 setPosX(x + 1);
-                System.out.println("Pressed D");
+            }
+            else if (tiles[x + 1][y] == pickups) {
+                tiles[x][y] = WorldGeneration.FLOORS;
+                tiles[x + 1][y] = AVATAR;
+                setPosX(x + 1);
             }
         }
     }
-
 }
+

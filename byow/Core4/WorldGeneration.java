@@ -13,24 +13,27 @@ public class WorldGeneration {
 
     private final static String WEST_EAST = "westeast";
     private final static String SOUTH_NORTH = "southnorth";
-    //    protected long Seed;
+    //    private long Seed;
     private final Random random;
     private final boolean[][] roomArea;
     private final ArrayList<RoomCoordinates> roomsList;
 
     private final Avatar avatar;
 
+    private Pickups pickups;
+
     public static final TETile FLOORS = Tileset.FLOOR;
     public static final TETile WALLS = Tileset.WALL;
     public static final TETile OUTSIDE = Tileset.SAND;
 
-    public WorldGeneration(int width, int height, TETile[][] tiles) {
+    public WorldGeneration(int width, int height) {
         this.width = width;
         this.height = height;
         this.roomArea = new boolean[this.width][this.height];
         this.roomsList = new ArrayList<>();
         this.random = new Random();
         this.avatar = new Avatar(Engine.WIDTH, Engine.HEIGHT);
+        this.pickups = new Pickups(Engine.WIDTH, Engine.HEIGHT);
 //        this.Seed = seed;
     }
 
@@ -71,8 +74,12 @@ public class WorldGeneration {
         avatar.getRandomPos(tiles);
     }
 
+    public void createPickups(TETile[][] tiles) {
+        pickups.getRandomSpots(tiles);
+    }
+
     public void moveAvatar(TETile[][] tiles, char letter) {
-        avatar.move(tiles, letter, avatar.getPosX(), avatar.getPosY());
+        avatar.move(tiles, letter, avatar.getPosX(), avatar.getPosY(), Pickups.PICKUPS);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
