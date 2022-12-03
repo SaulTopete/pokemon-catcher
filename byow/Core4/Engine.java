@@ -14,6 +14,8 @@ public class Engine {
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
+        MenuControl mc = new MenuControl(50, 50);
+        mc.start();
 
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
