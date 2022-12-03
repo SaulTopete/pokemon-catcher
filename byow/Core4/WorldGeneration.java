@@ -1,6 +1,5 @@
 package byow.Core4;
 
-import byow.Core4.RandomUtils;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-public class MundoGenerator {
+public class WorldGeneration {
     private int width;
     private int height;
 
@@ -19,7 +18,7 @@ public class MundoGenerator {
     private final boolean[][] roomArea;
     private ArrayList<RoomCoordinates> roomsList;
 
-    public MundoGenerator(int width, int height) {
+    public WorldGeneration(int width, int height) {
         this.width = width;
         this.height = height;
         this.roomArea = new boolean[this.width][this.height];

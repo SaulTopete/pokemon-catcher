@@ -64,7 +64,7 @@ public class Engine {
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-        MundoGenerator newWorld = new MundoGenerator(WIDTH, HEIGHT);
+        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
