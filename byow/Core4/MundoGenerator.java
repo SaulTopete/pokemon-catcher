@@ -5,38 +5,37 @@ import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class MundoGenerator {
-    protected int width;
-    protected int height;
+    private int width;
+    private int height;
+
+    private final static String WEST_EAST = "westeast";
+    private final static String SOUTH_NORTH = "southnorth";
     //    protected long Seed;
-    protected Random random;
+    private Random random;
     private final boolean[][] roomArea;
     private ArrayList<RoomCoordinates> roomsList;
-    protected PuntosCardinales<Integer, Integer> pc;
 
-    private HashMap graph;
-
-    //
     public MundoGenerator(int width, int height) {
         this.width = width;
         this.height = height;
         this.roomArea = new boolean[this.width][this.height];
         this.roomsList = new ArrayList<>();
         this.random = new Random();
-        graph = new HashMap(roomsList);
 //        this.Seed = seed;
     }
 
-    public MundoGenerator(int width, int height, boolean[][] roomArea, PuntosCardinales pc) {
-        this.width = width;
-        this.height = height;
-        this.roomArea = roomArea;
-        this.random = new Random();
-//        this.Seed = seed;
-        this.pc = pc;
-    }
+//    public MundoGenerator(int width, int height, boolean[][] roomArea, PuntosCardinales pc) {
+//        this.width = width;
+//        this.height = height;
+//        this.roomArea = roomArea;
+//        this.random = new Random();
+////        this.Seed = seed;
+//        this.pc = pc;
+//    }
 
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
@@ -56,7 +55,6 @@ public class MundoGenerator {
         int randomYDimm = randomRoomSize();
         RoomCoordinates roomStuff = new RoomCoordinates(startPointX, startPointY, randomXDimm, randomYDimm);
         boolean isValidPosition = isValidRoomPos(roomStuff);
-        boolean tooClose = false;
 
         while (!isValidPosition) {
             roomStuff.setStartX(randomVal(width));
@@ -67,12 +65,9 @@ public class MundoGenerator {
             roomStuff.setEndPointY(roomStuff.getStartY() + randomYDimm);
 
             isValidPosition = isValidRoomPos(roomStuff);
-//            tooClose = isTouching(roomStuff);
         }
         fillRoomTiles(roomStuff, tiles);
         createWalls(tiles, roomStuff.getStartX(), roomStuff.getStartY(), roomStuff.getEndPointX(), roomStuff.getEndPointY());
-//        graph.connectRooms(roomsList);
-//        graph.printHashMap(roomsList);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
@@ -103,42 +98,12 @@ public class MundoGenerator {
         return false;
     }
 
-    //Need to edit so checking left, right, up, and down doesn't error
-    private boolean isTouching(RoomCoordinates futureBuiltRoom) {
-        for (int x = futureBuiltRoom.getStartX(); x < futureBuiltRoom.getEndPointX(); x++) {
-            for (int y = futureBuiltRoom.getStartY(); y < futureBuiltRoom.getEndPointY(); y++) {
-                if (y + 3 < height) {
-                    if (roomArea[x][y + 3]) {
-                        return false;
-                    }
-                }
-                if (x - 3 > 0) {
-                    if (roomArea[x - 3][y]) {
-                        return false;
-                    }
-                }
-                if (x + 3 < width) {
-                    if (roomArea[x + 3][y]) {
-                        return false;
-                    }
-                }
-                if (y - 3 > 0) {
-                    if (roomArea[x][y - 3]) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
     public void createRooms(TETile[][] tiles) {
         int randomNumRooms = roomNumberAletorio();
         for (int i = 0; i < randomNumRooms; i++) {
             createRoom(tiles);
         }
     }
-
 
     private void createWalls(TETile[][] tiles, int startX, int startY, int endX, int endY) {
         for (int i = startY; i <= endY; i++) {
@@ -177,17 +142,6 @@ public class MundoGenerator {
         }
     }
 
-//    public void printListTest() {
-//        System.out.println();
-//        for (int i = 0; i < roomsList.size(); i++) {
-//            System.out.println("X: " + roomsList.get(i).getStartX());
-//            System.out.println("Y: " + roomsList.get(i).getStartY());
-//            System.out.println();
-//        }
-//        System.out.println();
-//        System.out.println("Size: " + roomsList.size());
-//    }
-
     public void drawHallway(TETile[][] tiles) {
         /*
         1. Get the data structure knowing which rooms to connect to what
@@ -199,38 +153,63 @@ public class MundoGenerator {
         6. Repeat steps 3-5
          */
 
-        int rm1MidX = roomsList.get(0).getMidDimmX();
-        int rm1MidY = roomsList.get(0).getMidDimmY();
-        int rm2MidX = roomsList.get(1).getMidDimmX();
-        int rm2MidY = roomsList.get(1).getMidDimmY();
-        int rmMinX, rmMinY, rmMaxX, rmMaxY;
+        for (int pos = 0; pos < roomsList.size() - 1; pos++) {
+            int rm1MidX = roomsList.get(pos).getMidDimmX();
+            int rm1MidY = roomsList.get(pos).getMidDimmY();
+            int rm2MidX = roomsList.get(pos + 1).getMidDimmX();
+            int rm2MidY = roomsList.get(pos + 1).getMidDimmY();
+            int rmMinX, rmMinY, rmMaxX, rmMaxY;
 
-        rmMinX = Math.min(rm1MidX, rm2MidX);
-        rmMinY = Math.min(rm1MidY, rm2MidY);
-        rmMaxX = Math.max(rm1MidX, rm2MidX);
-        rmMaxY = Math.max(rm1MidY, rm2MidY);
+            rmMinX = Math.min(rm1MidX, rm2MidX);
+            rmMinY = Math.min(rm1MidY, rm2MidY);
+            rmMaxX = Math.max(rm1MidX, rm2MidX);
+            rmMaxY = Math.max(rm1MidY, rm2MidY);
 
-        if (rmMinX == rm2MidX) {
-            for (int i = rmMinX; i <= rmMaxX; i++) {
-                tiles[i][rm1MidY] = Tileset.MOUNTAIN;
-                roomArea[i][rm1MidY] = true;
+            if (rmMinX == rm2MidX) {
+                for (int i = rmMinX; i <= rmMaxX; i++) {
+                    tiles[i][rm1MidY] = Tileset.FLOOR;
+                    roomArea[i][rm1MidY] = true;
+                    createHallwayWalls(tiles, i, rm1MidY, WEST_EAST);
+                }
+            } else {
+                for (int i = rmMinX; i <= rmMaxX; i++) {
+                    tiles[i][rm2MidY] = Tileset.FLOOR;
+                    roomArea[i][rm2MidY] = true;
+                    createHallwayWalls(tiles, i, rm2MidY, WEST_EAST);
+                }
             }
-        } else {
-            for (int i = rmMinX; i <= rmMaxX; i++) {
-                tiles[i][rm2MidY] = Tileset.MOUNTAIN;
-                roomArea[i][rm2MidY] = true;
+
+            if (rmMinY == rm2MidY) {
+                for (int i = rmMinY; i <= rmMaxY; i++) {
+                    tiles[rmMinX][i] = Tileset.FLOOR;
+                    roomArea[rmMinX][i] = true;
+                    createHallwayWalls(tiles, rmMinX, i, SOUTH_NORTH);
+                }
+            } else {
+                for (int i = rmMinY; i <= rmMaxY; i++) {
+                    tiles[rmMinX][i] = Tileset.FLOOR;
+                    roomArea[rmMinX][i] = true;
+                    createHallwayWalls(tiles, rmMinX, i, SOUTH_NORTH);
+                }
             }
         }
+    }
 
-        if (rmMinY == rm2MidY) {
-            for (int i = rmMinY; i <= rmMaxY; i++) {
-                tiles[rmMinX][i] = Tileset.MOUNTAIN;
-                roomArea[rmMinX][i] = true;
+    private void createHallwayWalls(TETile[][] tiles, int currX, int currY, String direction) {
+        if (Objects.equals(direction, WEST_EAST)) {
+            if (tiles[currX][currY + 1] == Tileset.WATER) {
+                tiles[currX][currY + 1] = Tileset.WALL;
             }
-        } else {
-            for (int i = rmMinY; i <= rmMaxY; i++) {
-                tiles[rmMinX][i] = Tileset.MOUNTAIN;
-                roomArea[rmMinX][i] = true;
+            if (tiles[currX][currY - 1] == Tileset.WATER) {
+                tiles[currX][currY - 1] = Tileset.WALL;
+            }
+        }
+        else {
+            if (tiles[currX + 1][currY] == Tileset.WATER) {
+                tiles[currX + 1][currY] = Tileset.WALL;
+            }
+            if (tiles[currX - 1][currY] == Tileset.WATER) {
+                tiles[currX - 1][currY] = Tileset.WALL;
             }
         }
     }
