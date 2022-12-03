@@ -50,36 +50,18 @@ public class Engine {
 
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
-
-//        PuntosCardinales avatarPoint = new PuntosCardinales(0, 0);
-//
-//        String seed = input.substring(1, 10);
-//        long myLong = Long.parseLong(seed);
-//        MundoGenerator newWorld = new MundoGenerator(WIDTH, HEIGHT, myLong, avatarPoint);
-//        TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-//        newWorld.canvasFilledNothing(finalWorldFrame);
-//        return null;
     }
 
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
+        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, tiles);
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
         newWorld.drawHallway(tiles);
+        newWorld.addAvatar(tiles);
         newWorld.printBoard();
         ter.renderFrame(tiles);
-
-//        PuntosCardinales avatarPoint = new PuntosCardinales(0, 0);
-////        String input = "penetracion";
-////        long myLong = Long.parseLong(input);
-//        TETile[][] mundo = new TETile[WIDTH][HEIGHT];
-
-//
-//        newWorld.canvasFilledNothing(mundo);
-//        newWorld.creacionRoom(mundo);
-//        ter.renderFrame(mundo);
     }
 }

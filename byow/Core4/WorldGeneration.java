@@ -18,23 +18,17 @@ public class WorldGeneration {
     private final boolean[][] roomArea;
     private ArrayList<RoomCoordinates> roomsList;
 
-    public WorldGeneration(int width, int height) {
+    private Character character;
+
+    public WorldGeneration(int width, int height, TETile[][] tiles) {
         this.width = width;
         this.height = height;
         this.roomArea = new boolean[this.width][this.height];
         this.roomsList = new ArrayList<>();
         this.random = new Random();
+        this.character = new Character(Engine.WIDTH, Engine.HEIGHT, tiles);
 //        this.Seed = seed;
     }
-
-//    public MundoGenerator(int width, int height, boolean[][] roomArea, PuntosCardinales pc) {
-//        this.width = width;
-//        this.height = height;
-//        this.roomArea = roomArea;
-//        this.random = new Random();
-////        this.Seed = seed;
-//        this.pc = pc;
-//    }
 
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
@@ -67,6 +61,10 @@ public class WorldGeneration {
         }
         fillRoomTiles(roomStuff, tiles);
         createWalls(tiles, roomStuff.getStartX(), roomStuff.getStartY(), roomStuff.getEndPointX(), roomStuff.getEndPointY());
+    }
+
+    public void addAvatar(TETile[][] tiles) {
+        character.getRandomPos(tiles);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
