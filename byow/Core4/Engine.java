@@ -2,6 +2,7 @@ package byow.Core4;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class Engine {
     TERenderer ter = new TERenderer();
@@ -64,6 +65,8 @@ public class Engine {
     }
 
     public static void main(String[] args) {
+        boolean gameOver = false;
+        boolean pressed = false;
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
@@ -74,6 +77,16 @@ public class Engine {
         newWorld.addAvatar(tiles);
         newWorld.printBoard();
         ter.renderFrame(tiles);
+        while (!gameOver) {
+            while (!pressed) {
+                if (StdDraw.hasNextKeyTyped()) {
+                    pressed = true;
+                    newWorld.moveAvatar(tiles, StdDraw.nextKeyTyped());
+                    ter.renderFrame(tiles);
+                }
+            }
+            pressed = false;
+        }
     }
 }
 

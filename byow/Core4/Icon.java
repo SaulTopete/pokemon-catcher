@@ -7,14 +7,14 @@ import java.util.Random;
 
 public class Icon {
 
-    private Random random;
+    private final Random random;
 
     private int posX, posY;
 
     private int DIM_X = 0;
     private int DIM_Y = 0;
 
-    private TETile icon;
+    private final TETile icon;
 
     public Icon(int dimmX, int dimmY, TETile icon) {
         this.DIM_X = dimmX;

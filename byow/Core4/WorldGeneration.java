@@ -8,17 +8,21 @@ import java.util.Objects;
 import java.util.Random;
 
 public class WorldGeneration {
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     private final static String WEST_EAST = "westeast";
     private final static String SOUTH_NORTH = "southnorth";
     //    protected long Seed;
-    private Random random;
+    private final Random random;
     private final boolean[][] roomArea;
-    private ArrayList<RoomCoordinates> roomsList;
+    private final ArrayList<RoomCoordinates> roomsList;
 
-    private Avatar avatar;
+    private final Avatar avatar;
+
+    public static final TETile FLOORS = Tileset.FLOOR;
+    public static final TETile WALLS = Tileset.WALL;
+    public static final TETile OUTSIDE = Tileset.SAND;
 
     public WorldGeneration(int width, int height, TETile[][] tiles) {
         this.width = width;
@@ -33,7 +37,7 @@ public class WorldGeneration {
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++)
-                tiles[x][y] = Tileset.WATER;
+                tiles[x][y] = OUTSIDE;
         }
     }
 
@@ -67,10 +71,14 @@ public class WorldGeneration {
         avatar.getRandomPos(tiles);
     }
 
+    public void moveAvatar(TETile[][] tiles, char letter) {
+        avatar.move(tiles, letter, avatar.getPosX(), avatar.getPosY());
+    }
+
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
         for (int i = room.getStartX(); i <= room.getEndPointX(); i += 1) {
             for (int j = room.getStartY(); j <= room.getEndPointY(); j += 1) {
-                tiles[i][j] = Tileset.FLOOR;
+                tiles[i][j] = FLOORS;
                 roomArea[i][j] = true;
             }
         }
@@ -104,17 +112,16 @@ public class WorldGeneration {
 
     private void createWalls(TETile[][] tiles, int startX, int startY, int endX, int endY) {
         for (int i = startY; i <= endY; i++) {
-            tiles[startX][i] = Tileset.WALL;
-        }
-
-        for (int i = startX; i <= endX; i++) {
-            tiles[i][startY] = Tileset.WALL;
+            tiles[startX][i] = WALLS;
         }
         for (int i = startX; i <= endX; i++) {
-            tiles[i][endY] = Tileset.WALL;
+            tiles[i][startY] = WALLS;
+        }
+        for (int i = startX; i <= endX; i++) {
+            tiles[i][endY] = WALLS;
         }
         for (int i = startY; i <= endY; i++) {
-            tiles[endX][i] = Tileset.WALL;
+            tiles[endX][i] = WALLS;
         }
     }
 
@@ -164,13 +171,13 @@ public class WorldGeneration {
 
             if (rmMinX == rm2MidX) {
                 for (int i = rmMinX; i <= rmMaxX; i++) {
-                    tiles[i][rm1MidY] = Tileset.FLOOR;
+                    tiles[i][rm1MidY] = FLOORS;
                     roomArea[i][rm1MidY] = true;
                     createHallwayWalls(tiles, i, rm1MidY, WEST_EAST);
                 }
             } else {
                 for (int i = rmMinX; i <= rmMaxX; i++) {
-                    tiles[i][rm2MidY] = Tileset.FLOOR;
+                    tiles[i][rm2MidY] = FLOORS;
                     roomArea[i][rm2MidY] = true;
                     createHallwayWalls(tiles, i, rm2MidY, WEST_EAST);
                 }
@@ -178,13 +185,13 @@ public class WorldGeneration {
 
             if (rmMinY == rm2MidY) {
                 for (int i = rmMinY; i <= rmMaxY; i++) {
-                    tiles[rmMinX][i] = Tileset.FLOOR;
+                    tiles[rmMinX][i] = FLOORS;
                     roomArea[rmMinX][i] = true;
                     createHallwayWalls(tiles, rmMinX, i, SOUTH_NORTH);
                 }
             } else {
                 for (int i = rmMinY; i <= rmMaxY; i++) {
-                    tiles[rmMinX][i] = Tileset.FLOOR;
+                    tiles[rmMinX][i] = FLOORS;
                     roomArea[rmMinX][i] = true;
                     createHallwayWalls(tiles, rmMinX, i, SOUTH_NORTH);
                 }
@@ -194,19 +201,19 @@ public class WorldGeneration {
 
     private void createHallwayWalls(TETile[][] tiles, int currX, int currY, String direction) {
         if (Objects.equals(direction, WEST_EAST)) {
-            if (tiles[currX][currY + 1] == Tileset.WATER) {
-                tiles[currX][currY + 1] = Tileset.WALL;
+            if (tiles[currX][currY + 1] == OUTSIDE) {
+                tiles[currX][currY + 1] = WALLS;
             }
-            if (tiles[currX][currY - 1] == Tileset.WATER) {
-                tiles[currX][currY - 1] = Tileset.WALL;
+            if (tiles[currX][currY - 1] == OUTSIDE) {
+                tiles[currX][currY - 1] = WALLS;
             }
         }
         else {
-            if (tiles[currX + 1][currY] == Tileset.WATER) {
-                tiles[currX + 1][currY] = Tileset.WALL;
+            if (tiles[currX + 1][currY] == OUTSIDE) {
+                tiles[currX + 1][currY] = WALLS;
             }
-            if (tiles[currX - 1][currY] == Tileset.WATER) {
-                tiles[currX - 1][currY] = Tileset.WALL;
+            if (tiles[currX - 1][currY] == OUTSIDE) {
+                tiles[currX - 1][currY] = WALLS;
             }
         }
     }

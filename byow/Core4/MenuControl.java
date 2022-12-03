@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class MenuControl {
 
-    private int Width;
-    private int Height;
+    private final int Width;
+    private final int Height;
 
     public MenuControl(int Width, int Height) {
         this.Width = Width;
