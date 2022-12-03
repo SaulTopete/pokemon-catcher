@@ -18,7 +18,7 @@ public class WorldGeneration {
     private final boolean[][] roomArea;
     private ArrayList<RoomCoordinates> roomsList;
 
-    private Character character;
+    private Avatar avatar;
 
     public WorldGeneration(int width, int height, TETile[][] tiles) {
         this.width = width;
@@ -26,7 +26,7 @@ public class WorldGeneration {
         this.roomArea = new boolean[this.width][this.height];
         this.roomsList = new ArrayList<>();
         this.random = new Random();
-        this.character = new Character(Engine.WIDTH, Engine.HEIGHT, tiles);
+        this.avatar = new Avatar(Engine.WIDTH, Engine.HEIGHT);
 //        this.Seed = seed;
     }
 
@@ -37,7 +37,7 @@ public class WorldGeneration {
         }
     }
 
-    public int roomNumberAletorio() {
+    public int randomRoomNumber() {
         return RandomUtils.uniform(random, 15, 20);
     }
 
@@ -64,7 +64,7 @@ public class WorldGeneration {
     }
 
     public void addAvatar(TETile[][] tiles) {
-        character.getRandomPos(tiles);
+        avatar.getRandomPos(tiles);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
@@ -96,7 +96,7 @@ public class WorldGeneration {
     }
 
     public void createRooms(TETile[][] tiles) {
-        int randomNumRooms = roomNumberAletorio();
+        int randomNumRooms = randomRoomNumber();
         for (int i = 0; i < randomNumRooms; i++) {
             createRoom(tiles);
         }
