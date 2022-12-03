@@ -12,25 +12,25 @@ public class HashMap {
         }
     }
 
-    public void connectRooms(ArrayList<RoomCoordinates> rooms) {
-        RoomCoordinates currRoom = null, minRoom = null;
-        int minWeight = Integer.MAX_VALUE, minDistance = Integer.MAX_VALUE;
-        for (int i = 0; i < rooms.size(); i++) {
-            currRoom = rooms.get(i);
-            for (RoomCoordinates wizPos : rooms) {
-                if (minRoom == null) {
-                    minRoom = wizPos;
-                }
-                else if (currRoom != wizPos) {
-                    if (distance(currRoom, wizPos) < minDistance && hashMap.get(wizPos).size() < minWeight) {
-                        minRoom = wizPos;
-                    }
-                }
-
-            }
-        }
-        hashMap.get(currRoom).add(minRoom);
-    }
+//    public void connectRooms(ArrayList<RoomCoordinates> rooms) {
+//        RoomCoordinates currRoom = null, minRoom = null;
+//        int minWeight = Integer.MAX_VALUE, minDistance = Integer.MAX_VALUE;
+//        for (int i = 0; i < rooms.size(); i++) {
+//            currRoom = rooms.get(i);
+//            for (RoomCoordinates wizPos : rooms) {
+//                if (minRoom == null) {
+//                    minRoom = wizPos;
+//                }
+//                else if (currRoom != wizPos) {
+//                    if (distance(currRoom, wizPos) < minDistance && hashMap.get(wizPos).size() < minWeight) {
+//                        minRoom = wizPos;
+//                    }
+//                }
+//
+//            }
+//        }
+//        hashMap.get(currRoom).add(minRoom);
+//    }
 
     private int distance(RoomCoordinates rm1, RoomCoordinates rm2) {
         return (int) Math.sqrt(Math.pow(rm1.getMidDimmX() - rm2.getMidDimmX(), 2) + Math.pow(rm1.getMidDimmY() - rm2.getMidDimmY(), 2));

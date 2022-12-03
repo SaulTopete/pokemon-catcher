@@ -7,7 +7,7 @@ public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 90;
-    public static final int HEIGHT = 45;
+    public static final int HEIGHT = 49;
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -68,6 +68,7 @@ public class Engine {
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
+        newWorld.drawHallway(tiles);
         newWorld.printBoard();
         ter.renderFrame(tiles);
 

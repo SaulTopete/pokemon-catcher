@@ -71,8 +71,8 @@ public class MundoGenerator {
         }
         fillRoomTiles(roomStuff, tiles);
         createWalls(tiles, roomStuff.getStartX(), roomStuff.getStartY(), roomStuff.getEndPointX(), roomStuff.getEndPointY());
-        graph.connectRooms(roomsList);
-        graph.printHashMap(roomsList);
+//        graph.connectRooms(roomsList);
+//        graph.printHashMap(roomsList);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
@@ -80,9 +80,9 @@ public class MundoGenerator {
             for (int j = room.getStartY(); j <= room.getEndPointY(); j += 1) {
                 tiles[i][j] = Tileset.FLOOR;
                 roomArea[i][j] = true;
-                roomsList.add(room);
             }
         }
+        roomsList.add(room);
     }
 
     private boolean isValidRoomPos(RoomCoordinates futureRoomBuilt) {
@@ -177,8 +177,62 @@ public class MundoGenerator {
         }
     }
 
-    public void drawHallway() {
+//    public void printListTest() {
+//        System.out.println();
+//        for (int i = 0; i < roomsList.size(); i++) {
+//            System.out.println("X: " + roomsList.get(i).getStartX());
+//            System.out.println("Y: " + roomsList.get(i).getStartY());
+//            System.out.println();
+//        }
+//        System.out.println();
+//        System.out.println("Size: " + roomsList.size());
+//    }
 
+    public void drawHallway(TETile[][] tiles) {
+        /*
+        1. Get the data structure knowing which rooms to connect to what
+        2. Create boolean for each room to see if it connected to other room
+        3. Loop through the data structure for each room
+        4. if the boolean is false, connect the rooms and change the tiles
+        5. Change that specific boolean for the connection to true, so that
+           another connection doesn't happen for those rooms
+        6. Repeat steps 3-5
+         */
+
+        int rm1MidX = roomsList.get(0).getMidDimmX();
+        int rm1MidY = roomsList.get(0).getMidDimmY();
+        int rm2MidX = roomsList.get(1).getMidDimmX();
+        int rm2MidY = roomsList.get(1).getMidDimmY();
+        int rmMinX, rmMinY, rmMaxX, rmMaxY;
+
+        rmMinX = Math.min(rm1MidX, rm2MidX);
+        rmMinY = Math.min(rm1MidY, rm2MidY);
+        rmMaxX = Math.max(rm1MidX, rm2MidX);
+        rmMaxY = Math.max(rm1MidY, rm2MidY);
+
+        if (rmMinX == rm2MidX) {
+            for (int i = rmMinX; i <= rmMaxX; i++) {
+                tiles[i][rm1MidY] = Tileset.MOUNTAIN;
+                roomArea[i][rm1MidY] = true;
+            }
+        } else {
+            for (int i = rmMinX; i <= rmMaxX; i++) {
+                tiles[i][rm2MidY] = Tileset.MOUNTAIN;
+                roomArea[i][rm2MidY] = true;
+            }
+        }
+
+        if (rmMinY == rm2MidY) {
+            for (int i = rmMinY; i <= rmMaxY; i++) {
+                tiles[rmMinX][i] = Tileset.MOUNTAIN;
+                roomArea[rmMinX][i] = true;
+            }
+        } else {
+            for (int i = rmMinY; i <= rmMaxY; i++) {
+                tiles[rmMinX][i] = Tileset.MOUNTAIN;
+                roomArea[rmMinX][i] = true;
+            }
+        }
     }
 }
 
