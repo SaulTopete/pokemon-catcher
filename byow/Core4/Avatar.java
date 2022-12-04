@@ -6,7 +6,7 @@ import byow.TileEngine.Tileset;
 import java.awt.*;
 
 public class Avatar extends Icon {
-    private static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "snorlax", ".\\images\\snorlax.png");;
+    private static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\joshhug.jpg");
 
     private static int score;
 
