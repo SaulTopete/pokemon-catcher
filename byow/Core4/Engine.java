@@ -67,6 +67,8 @@ public class Engine {
     public static void main(String[] args) {
         boolean gameOver = false;
         boolean pressed = false;
+        int pickedUp = 0;
+
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] tiles = new TETile[WIDTH][HEIGHT];
@@ -79,6 +81,9 @@ public class Engine {
         newWorld.printBoard();
         ter.renderFrame(tiles);
         while (!gameOver) {
+            if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
+                gameOver = true;
+            }
             while (!pressed) {
                 if (StdDraw.hasNextKeyTyped()) {
                     pressed = true;
@@ -86,6 +91,7 @@ public class Engine {
                     ter.renderFrame(tiles);
                 }
             }
+            pickedUp = Avatar.getScore();
             pressed = false;
         }
     }
