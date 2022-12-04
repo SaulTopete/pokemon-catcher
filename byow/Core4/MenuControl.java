@@ -2,18 +2,22 @@ package byow.Core4;
 
 import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;
-import edu.princeton.cs.introcs.StdDraw;
+import byow.TileEngine.TETile;
+import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
 
 public class MenuControl {
 
+
+    private String name;
     private final int Width;
     private final int Height;
 
-    public MenuControl(int Width, int Height) {
+    public MenuControl(int Width, int Height, String name) {
         this.Width = Width;
         this.Height = Height;
+        this.name = name;
         StdDraw.setCanvasSize(this.Width * 16, this.Height * 16);
         Font font = new Font("Helvetica", Font.PLAIN, 30);
         StdDraw.setFont(font);
@@ -84,4 +88,25 @@ public class MenuControl {
                 }
             }
     }
+
+    public void showNamesHUD(int xC, int yC, TETile[][] tiles, int av, int av2) {
+        String titulo = "";
+        if ((xC >= 0 && xC < Width) && (yC >= 0 && yC < Height)) {
+            titulo = tiles[xC][yC].description();
+        } else if ((xC <= 0 && xC > Width) && (yC <= 0 && yC > Height)){
+            titulo = "{ }";
+
+        }
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.filledRectangle(Width, Height, this.Width, this.Height/13);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(Width + 12, Height - 2, "Name:" + name);
+        StdDraw.text(Width/ 2 - 5, Height - 2, "Location: " + titulo);
+        StdDraw.text(Width/5 + 23, Height -2, "Pokemon Captured: " + av);
+        StdDraw.text(Width/2 + 19, Height - 2, "Steps Taken: " + av2);
+
+
+        StdDraw.show();
+    }
+
 }

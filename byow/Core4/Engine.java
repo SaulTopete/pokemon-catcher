@@ -15,7 +15,14 @@ public class Engine {
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
-        MenuControl mc = new MenuControl(50, 50);
+        boolean gameOver = false;
+        boolean pressed = false;
+        int pickedUp = 0;
+        int stepsTaken = 0;
+        String name = "Pokemon Trainer";
+
+
+        MenuControl mc = new MenuControl(50, 50, name);
         mc.start();
 
         TERenderer ter = new TERenderer();
@@ -25,9 +32,30 @@ public class Engine {
         newWorld.canvasFilledNothing(tiles);
         newWorld.createRooms(tiles);
         newWorld.drawHallway(tiles);
-        newWorld.printBoard();
         newWorld.addAvatar(tiles);
+        newWorld.createPickups(tiles);
+        newWorld.printBoard();
         ter.renderFrame(tiles);
+
+
+        while (!gameOver) {
+            if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
+                gameOver = true;
+            }
+            while (!pressed) {
+                if (StdDraw.hasNextKeyTyped()) {
+                    pressed = true;
+                    newWorld.moveAvatar(tiles, StdDraw.nextKeyTyped());
+                    ter.renderFrame(tiles);
+                }
+                int mX = (int)StdDraw.mouseX();
+                int mY = (int)StdDraw.mouseY();
+                mc.showNamesHUD(mX,mY,tiles, pickedUp, stepsTaken);
+            }
+            pickedUp = Avatar.getScore();
+            stepsTaken = Avatar.getStepsTaken();
+            pressed = false;
+        }
     }
 
     /**
@@ -64,36 +92,36 @@ public class Engine {
         return finalWorldFrame;
     }
 
-    public static void main(String[] args) {
-        boolean gameOver = false;
-        boolean pressed = false;
-        int pickedUp = 0;
-
-        TERenderer ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
-        TETile[][] tiles = new TETile[WIDTH][HEIGHT];
-        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
-        newWorld.canvasFilledNothing(tiles);
-        newWorld.createRooms(tiles);
-        newWorld.drawHallway(tiles);
-        newWorld.addAvatar(tiles);
-        newWorld.createPickups(tiles);
-        newWorld.printBoard();
-        ter.renderFrame(tiles);
-        while (!gameOver) {
-            if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
-                gameOver = true;
-            }
-            while (!pressed) {
-                if (StdDraw.hasNextKeyTyped()) {
-                    pressed = true;
-                    newWorld.moveAvatar(tiles, StdDraw.nextKeyTyped());
-                    ter.renderFrame(tiles);
-                }
-            }
-            pickedUp = Avatar.getScore();
-            pressed = false;
-        }
-    }
+//    public static void main(String[] args) {
+//        boolean gameOver = false;
+//        boolean pressed = false;
+//        int pickedUp = 0;
+//
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(WIDTH, HEIGHT);
+//        TETile[][] tiles = new TETile[WIDTH][HEIGHT];
+//        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
+//        newWorld.canvasFilledNothing(tiles);
+//        newWorld.createRooms(tiles);
+//        newWorld.drawHallway(tiles);
+//        newWorld.addAvatar(tiles);
+//        newWorld.createPickups(tiles);
+//        newWorld.printBoard();
+//        ter.renderFrame(tiles);
+//        while (!gameOver) {
+//            if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
+//                gameOver = true;
+//            }
+//            while (!pressed) {
+//                if (StdDraw.hasNextKeyTyped()) {
+//                    pressed = true;
+//                    newWorld.moveAvatar(tiles, StdDraw.nextKeyTyped());
+//                    ter.renderFrame(tiles);
+//                }
+//            }
+//            pickedUp = Avatar.getScore();
+//            pressed = false;
+//        }
+//    }
 }
 
