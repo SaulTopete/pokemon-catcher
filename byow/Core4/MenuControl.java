@@ -34,7 +34,7 @@ public class MenuControl {
         Font font = new Font("Monospaced", Font.ITALIC, 30);
         StdDraw.setFont(font);
 
-        StdDraw.text(this.Width / 2, this.Height / 2 + 7, "Title");
+        StdDraw.text(this.Width / 2, this.Height / 2 + 7, "Pokemon Gatherer");
 
         Font secondFont = new Font("Courier", Font.PLAIN, 25);
         StdDraw.setFont(secondFont);
@@ -42,13 +42,13 @@ public class MenuControl {
         StdDraw.text(this.Width / 2, this.Height / 2 - 1, "Hey! What's Your Name? (T)");
         StdDraw.text(this.Width / 2, this.Height / 2 - 3.5, "(☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)");
         StdDraw.text(this.Width / 2, this.Height / 2 - 6, "Let's Continue (L)");
-        StdDraw.text(this.Width / 2, this.Height / 2 - 9, "Le't play Another Time (Q)");
+        StdDraw.text(this.Width / 2, this.Height / 2 - 9, "Let's play Another Time (Q)");
 
         StdDraw.show();
     }
 
     private boolean esN(char teclado){
-        boolean si = teclado== 'N';
+        boolean si = teclado == 'N';
         return si;
     }
     private boolean esT(char teclado){
@@ -93,10 +93,11 @@ public class MenuControl {
         String titulo = "";
         if ((xC >= 0 && xC < Width) && (yC >= 0 && yC < Height)) {
             titulo = tiles[xC][yC].description();
-        } else if ((xC <= 0 && xC > Width) && (yC <= 0 && yC > Height)){
-            titulo = "{ }";
-
         }
+//        else if ((xC <= 0 && xC > Width) && (yC <= 0 && yC > Height)){
+//            titulo = "{ }";
+//
+//        }
         StdDraw.setPenColor(StdDraw.WHITE);
         StdDraw.filledRectangle(Width, Height, this.Width, this.Height/13);
         StdDraw.setPenColor(StdDraw.BLACK);

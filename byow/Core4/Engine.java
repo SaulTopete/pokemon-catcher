@@ -8,7 +8,7 @@ public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 90;
-    public static final int HEIGHT = 49;
+    public static final int HEIGHT = 50;
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -20,7 +20,6 @@ public class Engine {
         int pickedUp = 0;
         int stepsTaken = 0;
         String name = "Pokemon Trainer";
-
 
         MenuControl mc = new MenuControl(50, 50, name);
         mc.start();
@@ -36,7 +35,6 @@ public class Engine {
         newWorld.createPickups(tiles);
         newWorld.printBoard();
         ter.renderFrame(tiles);
-
 
         while (!gameOver) {
             if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
