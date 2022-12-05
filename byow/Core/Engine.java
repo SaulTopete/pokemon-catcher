@@ -2,6 +2,7 @@ package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
+import edu.princeton.cs.algs4.StdAudio;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
@@ -25,6 +26,7 @@ public class Engine {
         String quitInput = "";
         int pickedUp = 0;
         int stepsTaken = 0;
+        int seed = 0;
         String name = "";
 
         MenuControl mc = new MenuControl(50, 50, name);
@@ -67,7 +69,7 @@ public class Engine {
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] lightTiles = new TETile[WIDTH][HEIGHT];
         TETile[][] darkTiles = new TETile[WIDTH][HEIGHT];
-        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
+        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, seed);
         newWorld.canvasFilledNothing(lightTiles);
         newWorld.createRooms(lightTiles);
         newWorld.drawHallway(lightTiles);

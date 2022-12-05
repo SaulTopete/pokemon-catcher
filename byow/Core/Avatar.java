@@ -1,11 +1,15 @@
 package byow.Core;
 
 import byow.TileEngine.TETile;
+import edu.princeton.cs.algs4.StdAudio;
 
 import java.awt.*;
 
 public class Avatar extends Icon {
     public static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\joshhug.jpg");
+    public static final TETile OUTSIDE_1 = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\piplup.png");
+    public static final TETile OUTSIDE_2 = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\snorlax.png");
+    public static final TETile OUTSIDE_3 = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\trubbish.png");
 
     private static int score;
 
@@ -79,7 +83,6 @@ public class Avatar extends Icon {
                 moved = true;
             }
             else if (lightTiles[x - 1][y] == pickups) {
-//                lightDarkenArea(lightTiles, darkTiles);
                 lightTiles[x][y] = WorldGeneration.FLOORS;
                 darkTiles[x][y] = lightTiles[x][y];
                 lightTiles[x - 1][y] = AVATAR;
@@ -103,7 +106,6 @@ public class Avatar extends Icon {
                 moved = true;
             }
             else if (lightTiles[x + 1][y] == pickups) {
-//                lightDarkenArea(lightTiles, darkTiles);
                 lightTiles[x][y] = WorldGeneration.FLOORS;
                 darkTiles[x][y] = lightTiles[x][y];
                 lightTiles[x + 1][y] = AVATAR;

@@ -3,6 +3,7 @@ package byow.Core;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -13,7 +14,7 @@ public class WorldGeneration {
 
     private final static String WEST_EAST = "westeast";
     private final static String SOUTH_NORTH = "southnorth";
-    //    private long Seed;
+    private long Seed;
     private final Random random;
     private final boolean[][] lightArea;
 
@@ -26,9 +27,14 @@ public class WorldGeneration {
     public static final TETile FLOORS = Tileset.FLOOR;
     public static final TETile WALLS = Tileset.WALL;
     public static final TETile OUTSIDE = Tileset.SAND;
+
+    private static final TETile[] LIST_ENVI = {Avatar.OUTSIDE_1, Avatar.OUTSIDE_2, Avatar.OUTSIDE_3, OUTSIDE};
+
     public static final TETile DARKNESS = Tileset.NOTHING;
 
-    public WorldGeneration(int width, int height) {
+    private int ran;
+
+    public WorldGeneration(int width, int height, int seed) {
         this.width = width;
         this.height = height;
         this.lightArea = new boolean[this.width][this.height];
@@ -36,13 +42,14 @@ public class WorldGeneration {
         this.random = new Random();
         this.avatar = new Avatar(Engine.WIDTH, Engine.HEIGHT);
         this.pickups = new Pickups(Engine.WIDTH, Engine.HEIGHT);
-//        this.Seed = seed;
+        this.Seed = seed;
+        ran = RandomUtils.uniform(random, 0, 4);
     }
 
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++)
-                tiles[x][y] = OUTSIDE;
+                tiles[x][y] = LIST_ENVI[ran];
         }
     }
 
@@ -200,17 +207,17 @@ public class WorldGeneration {
 
     private void createHallwayWalls(TETile[][] tiles, int currX, int currY, String direction) {
         if (Objects.equals(direction, WEST_EAST)) {
-            if (tiles[currX][currY + 1] == OUTSIDE) {
+            if (tiles[currX][currY + 1] == LIST_ENVI[ran]) {
                 tiles[currX][currY + 1] = WALLS;
             }
-            if (tiles[currX][currY - 1] == OUTSIDE) {
+            if (tiles[currX][currY - 1] == LIST_ENVI[ran]) {
                 tiles[currX][currY - 1] = WALLS;
             }
         } else {
-            if (tiles[currX + 1][currY] == OUTSIDE) {
+            if (tiles[currX + 1][currY] == LIST_ENVI[ran]) {
                 tiles[currX + 1][currY] = WALLS;
             }
-            if (tiles[currX - 1][currY] == OUTSIDE) {
+            if (tiles[currX - 1][currY] == LIST_ENVI[ran]) {
                 tiles[currX - 1][currY] = WALLS;
             }
         }

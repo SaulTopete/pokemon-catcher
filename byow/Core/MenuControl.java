@@ -3,13 +3,15 @@ package byow.Core;
 import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;
 import byow.TileEngine.TETile;
+import edu.princeton.cs.algs4.StdArrayIO;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdStats;
+import edu.princeton.cs.introcs.StdRandom;
 
 import java.awt.*;
 
 public class MenuControl {
-
-
     private String name;
     private final int Width;
     private final int Height;
@@ -138,10 +140,7 @@ public class MenuControl {
         if ((xC >= 0 && xC < 90) && (yC >= 0 && yC < 50)) {
             titulo = tiles[xC][yC].description();
         }
-//        else if ((xC <= 0 && xC > Width) && (yC <= 0 && yC > Height)){
-//            titulo = "{ }";
-//
-//        }
+
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.filledRectangle(Width, Height, this.Width, this.Height/13);
         StdDraw.setPenColor(StdDraw.WHITE);
@@ -149,8 +148,6 @@ public class MenuControl {
         StdDraw.text(Width/ 2 - 5, Height - 1, "Location: " + titulo);
         StdDraw.text(Width/5 + 23, Height - 1, "Pokemon Captured: " + av);
         StdDraw.text(Width/2 + 19, Height - 1, "Steps Taken: " + av2);
-
-
         StdDraw.show();
     }
 
