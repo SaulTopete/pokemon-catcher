@@ -72,6 +72,7 @@ public class Engine {
                     }
                     if (quitInput.equals(":Q")) {
                         gameOver = true;
+                        System.exit(0);
                     }
                 }
                 int mX = (int) StdDraw.mouseX();
