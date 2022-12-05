@@ -89,6 +89,27 @@ public class MenuControl {
             }
     }
 
+    public String getNameTrainer(String name) {
+        boolean completeName = true;
+        InputSource inputSource = new KeyboardInputSource();
+        int count = 0;
+        do {
+            String c = String.valueOf(inputSource.getNextKey());
+            if (!c.equals(" ")) {
+                count += 1;
+                if (c.equals(".") || count == 9) {
+                    completeName = false;
+                }
+                name = name + c;
+                StdDraw.text(this.Width / 2 - 5 + count + 3, this.Height / 2 - 3, c);
+                StdDraw.show();
+            }
+
+        } while (completeName);
+        StdDraw.pause(750);
+        StdDraw.show();
+        return name;
+    }
 
     public void seedScreen(String myString) {
         boolean aslongasSeedthere = true;
@@ -112,7 +133,7 @@ public class MenuControl {
 
     }
 
-    public void showNamesHUD(int xC, int yC, TETile[][] tiles, int av, int av2) {
+    public void showNamesHUD(int xC, int yC, TETile[][] tiles, int av, int av2, String name) {
         String titulo = "";
         if ((xC >= 0 && xC < 90) && (yC >= 0 && yC < 50)) {
             titulo = tiles[xC][yC].description();

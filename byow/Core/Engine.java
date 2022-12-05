@@ -25,7 +25,7 @@ public class Engine {
         String quitInput = "";
         int pickedUp = 0;
         int stepsTaken = 0;
-        String name = " Pokemon Trainer";
+        String name = "";
 
         MenuControl mc = new MenuControl(50, 50, name);
         String teclado = mc.start();
@@ -43,6 +43,23 @@ public class Engine {
 
             StdDraw.show();
             mc.seedScreen(myString);
+            StdDraw.show();
+        }
+        if(teclado.equals("T")){
+            String myString = "";
+            StdDraw.clear(StdDraw.ORANGE);
+            Font font = new Font("Arial", Font.ROMAN_BASELINE, 40);
+            StdDraw.setFont(font);
+            StdDraw.ellipse(24.4, 23.7, 23.9, 23.3);
+            StdDraw.line(0, this.HEIGHT - 27.5, this.WIDTH + 4,this.HEIGHT - 27.5);
+            StdDraw.filledEllipse(this.WIDTH / 2 - 20, this.HEIGHT/2 - 2, 5.2, 4);
+            StdDraw.text(this.WIDTH / 2 - 19.5, this.HEIGHT / 2 + 10, "Welcome Trainer");
+            StdDraw.text(this.WIDTH / 2 - 19.5, this.HEIGHT / 2 + 8, "What's your name?");
+            StdDraw.text(this.WIDTH / 2 - 19.5, this.HEIGHT / 2 + 6, "Press . to finish.");
+            StdDraw.setPenColor(Color.WHITE);
+            StdDraw.show();
+
+            name = mc.getNameTrainer(myString);
             StdDraw.show();
         }
 
@@ -95,7 +112,7 @@ public class Engine {
                 }
                 int mX = (int) StdDraw.mouseX();
                 int mY = (int) StdDraw.mouseY();
-                mc.showNamesHUD(mX, mY, lightTiles, pickedUp, stepsTaken);
+                mc.showNamesHUD(mX, mY, lightTiles, pickedUp, stepsTaken, name);
             }
             pickedUp = Avatar.getScore();
             stepsTaken = Avatar.getStepsTaken();
