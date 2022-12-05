@@ -1,4 +1,4 @@
-package byow.Core4;
+package byow.Core;
 
 public class RoomCoordinates {
     private int startX;

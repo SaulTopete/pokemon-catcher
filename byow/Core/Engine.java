@@ -1,4 +1,4 @@
-package byow.Core4;
+package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
@@ -19,7 +19,8 @@ public class Engine {
         boolean pressed = false;
         boolean moved;
         boolean light = false;
-        char input;
+        char keyboardInput;
+        String quitInput = "";
         int pickedUp = 0;
         int stepsTaken = 0;
         String name = " Pokemon Trainer";
@@ -47,28 +48,35 @@ public class Engine {
             }
             while (!pressed) {
                 if (StdDraw.hasNextKeyTyped()) {
-                    input = StdDraw.nextKeyTyped();
+                    keyboardInput = StdDraw.nextKeyTyped();
                     pressed = true;
-                    moved = newWorld.moveAvatar(lightTiles, darkTiles, input);
-                    if (moved && light) {
-                        ter.renderFrame(darkTiles);
-                        newWorld.darkenArea(lightTiles, darkTiles);
+                    moved = newWorld.moveAvatar(lightTiles, darkTiles, keyboardInput);
+                    if (keyboardInput == ':' || Character.toUpperCase(keyboardInput) == 'Q') {
+                        quitInput += Character.toUpperCase(keyboardInput);
+                    } else {
+                        if (moved && light) {
+                            ter.renderFrame(darkTiles);
+                            newWorld.darkenArea(lightTiles, darkTiles);
+                        }
+                        if (moved && !light) {
+                            ter.renderFrame(lightTiles);
+                        }
+                        if (Character.toUpperCase(keyboardInput) == 'F' && light) {
+                            light = false;
+                            ter.renderFrame(lightTiles);
+                        } else if (Character.toUpperCase(keyboardInput) == 'F' && !light) {
+                            light = true;
+                            ter.renderFrame(darkTiles);
+                        }
+                        quitInput = "";
                     }
-                    if (moved && !light) {
-                        ter.renderFrame(lightTiles);
-                    }
-                    if (Character.toUpperCase(input) == 'F' && light) {
-                        light = false;
-                        ter.renderFrame(lightTiles);
-                    }
-                    else if (Character.toUpperCase(input) == 'F' && !light) {
-                        light = true;
-                        ter.renderFrame(darkTiles);
+                    if (quitInput.equals(":Q")) {
+                        gameOver = true;
                     }
                 }
-                int mX = (int)StdDraw.mouseX();
-                int mY = (int)StdDraw.mouseY();
-                mc.showNamesHUD(mX,mY,lightTiles, pickedUp, stepsTaken);
+                int mX = (int) StdDraw.mouseX();
+                int mY = (int) StdDraw.mouseY();
+                mc.showNamesHUD(mX, mY, lightTiles, pickedUp, stepsTaken);
             }
             pickedUp = Avatar.getScore();
             stepsTaken = Avatar.getStepsTaken();
@@ -105,6 +113,7 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
+
 
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;

@@ -1,10 +1,8 @@
-package byow.Core4;
+package byow.Core;
 
 import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
 
 import java.awt.*;
-import java.lang.invoke.WrongMethodTypeException;
 
 public class Avatar extends Icon {
     public static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\joshhug.jpg");
