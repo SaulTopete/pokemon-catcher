@@ -4,6 +4,8 @@ import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import edu.princeton.cs.algs4.StdDraw;
 
+import java.awt.*;
+
 public class Engine {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
@@ -26,7 +28,23 @@ public class Engine {
         String name = " Pokemon Trainer";
 
         MenuControl mc = new MenuControl(50, 50, name);
-        mc.start();
+        String teclado = mc.start();
+        if(teclado.equals("N")) {
+            String myString = "";
+            StdDraw.clear(StdDraw.ORANGE);
+            Font font = new Font("Arial", Font.ROMAN_BASELINE, 40);
+            StdDraw.setFont(font);
+            StdDraw.ellipse(24.4, 23.7, 23.9, 23.3);
+            StdDraw.line(0, this.HEIGHT - 27.5, this.WIDTH + 4,this.HEIGHT - 27.5);
+            StdDraw.filledEllipse(this.WIDTH / 2 - 20, this.HEIGHT/2 - 2, 5.2, 4);
+            StdDraw.text(this.WIDTH / 2 - 19.5, this.HEIGHT / 2 + 7, "Insert a Seed to begin.");
+            StdDraw.text(this.WIDTH / 2 - 19.5, this.HEIGHT / 2 + 3, "Press S to finish.");
+            StdDraw.setPenColor(Color.WHITE);
+
+            StdDraw.show();
+            mc.seedScreen(myString);
+            StdDraw.show();
+        }
 
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);

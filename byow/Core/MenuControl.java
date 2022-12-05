@@ -89,6 +89,29 @@ public class MenuControl {
             }
     }
 
+
+    public void seedScreen(String myString) {
+        boolean aslongasSeedthere = true;
+        InputSource inputSource = new KeyboardInputSource();
+        int count = 0;
+        do
+        {
+            String c = String.valueOf(inputSource.getNextKey());
+            if (!c.equals(" ")) {
+                count += 1;
+                if (c.equals("S")) {
+                    aslongasSeedthere = false;
+                }
+                myString = myString + c;
+                StdDraw.text(this.Width / 2 - 5 + count + 1, this.Height / 2 - 1, c);
+                StdDraw.show();
+            }
+        } while(aslongasSeedthere);
+        StdDraw.pause(750);
+        StdDraw.show();
+
+    }
+
     public void showNamesHUD(int xC, int yC, TETile[][] tiles, int av, int av2) {
         String titulo = "";
         if ((xC >= 0 && xC < 90) && (yC >= 0 && yC < 50)) {
@@ -98,13 +121,13 @@ public class MenuControl {
 //            titulo = "{ }";
 //
 //        }
-        StdDraw.setPenColor(StdDraw.WHITE);
-        StdDraw.filledRectangle(Width, Height, this.Width, this.Height/13);
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.text(Width + 12, Height - 2, "Name:" + name);
-        StdDraw.text(Width/ 2 - 5, Height - 2, "Location: " + titulo);
-        StdDraw.text(Width/5 + 23, Height -2, "Pokemon Captured: " + av);
-        StdDraw.text(Width/2 + 19, Height - 2, "Steps Taken: " + av2);
+        StdDraw.filledRectangle(Width, Height, this.Width, this.Height/13);
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.text(Width + 12, Height - 1, "Name:" + name);
+        StdDraw.text(Width/ 2 - 5, Height - 1, "Location: " + titulo);
+        StdDraw.text(Width/5 + 23, Height - 1, "Pokemon Captured: " + av);
+        StdDraw.text(Width/2 + 19, Height - 1, "Steps Taken: " + av2);
 
 
         StdDraw.show();
