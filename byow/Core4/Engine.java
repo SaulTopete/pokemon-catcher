@@ -17,24 +17,29 @@ public class Engine {
     public void interactWithKeyboard() {
         boolean gameOver = false;
         boolean pressed = false;
+        boolean moved;
+        boolean light = false;
+        char input;
         int pickedUp = 0;
         int stepsTaken = 0;
-        String name = "Pokemon Trainer";
+        String name = " Pokemon Trainer";
 
         MenuControl mc = new MenuControl(50, 50, name);
         mc.start();
 
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
-        TETile[][] tiles = new TETile[WIDTH][HEIGHT];
+        TETile[][] lightTiles = new TETile[WIDTH][HEIGHT];
+        TETile[][] darkTiles = new TETile[WIDTH][HEIGHT];
         WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
-        newWorld.canvasFilledNothing(tiles);
-        newWorld.createRooms(tiles);
-        newWorld.drawHallway(tiles);
-        newWorld.addAvatar(tiles);
-        newWorld.createPickups(tiles);
+        newWorld.canvasFilledNothing(lightTiles);
+        newWorld.createRooms(lightTiles);
+        newWorld.drawHallway(lightTiles);
+        newWorld.addAvatar(lightTiles);
+        newWorld.createPickups(lightTiles);
+        newWorld.darkenArea(lightTiles, darkTiles);
         newWorld.printBoard();
-        ter.renderFrame(tiles);
+        ter.renderFrame(lightTiles);
 
         while (!gameOver) {
             if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
@@ -42,13 +47,28 @@ public class Engine {
             }
             while (!pressed) {
                 if (StdDraw.hasNextKeyTyped()) {
+                    input = StdDraw.nextKeyTyped();
                     pressed = true;
-                    newWorld.moveAvatar(tiles, StdDraw.nextKeyTyped());
-                    ter.renderFrame(tiles);
+                    moved = newWorld.moveAvatar(lightTiles, darkTiles, input);
+                    if (moved && light) {
+                        ter.renderFrame(darkTiles);
+                        newWorld.darkenArea(lightTiles, darkTiles);
+                    }
+                    if (moved && !light) {
+                        ter.renderFrame(lightTiles);
+                    }
+                    if (Character.toUpperCase(input) == 'F' && light) {
+                        light = false;
+                        ter.renderFrame(lightTiles);
+                    }
+                    else if (Character.toUpperCase(input) == 'F' && !light) {
+                        light = true;
+                        ter.renderFrame(darkTiles);
+                    }
                 }
                 int mX = (int)StdDraw.mouseX();
                 int mY = (int)StdDraw.mouseY();
-                mc.showNamesHUD(mX,mY,tiles, pickedUp, stepsTaken);
+                mc.showNamesHUD(mX,mY,lightTiles, pickedUp, stepsTaken);
             }
             pickedUp = Avatar.getScore();
             stepsTaken = Avatar.getStepsTaken();
@@ -89,37 +109,5 @@ public class Engine {
         TETile[][] finalWorldFrame = null;
         return finalWorldFrame;
     }
-
-//    public static void main(String[] args) {
-//        boolean gameOver = false;
-//        boolean pressed = false;
-//        int pickedUp = 0;
-//
-//        TERenderer ter = new TERenderer();
-//        ter.initialize(WIDTH, HEIGHT);
-//        TETile[][] tiles = new TETile[WIDTH][HEIGHT];
-//        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT);
-//        newWorld.canvasFilledNothing(tiles);
-//        newWorld.createRooms(tiles);
-//        newWorld.drawHallway(tiles);
-//        newWorld.addAvatar(tiles);
-//        newWorld.createPickups(tiles);
-//        newWorld.printBoard();
-//        ter.renderFrame(tiles);
-//        while (!gameOver) {
-//            if (pickedUp == Pickups.NUM_OF_PICKUP_TO_END) {
-//                gameOver = true;
-//            }
-//            while (!pressed) {
-//                if (StdDraw.hasNextKeyTyped()) {
-//                    pressed = true;
-//                    newWorld.moveAvatar(tiles, StdDraw.nextKeyTyped());
-//                    ter.renderFrame(tiles);
-//                }
-//            }
-//            pickedUp = Avatar.getScore();
-//            pressed = false;
-//        }
-//    }
 }
 

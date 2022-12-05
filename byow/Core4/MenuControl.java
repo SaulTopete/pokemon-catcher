@@ -91,7 +91,7 @@ public class MenuControl {
 
     public void showNamesHUD(int xC, int yC, TETile[][] tiles, int av, int av2) {
         String titulo = "";
-        if ((xC >= 0 && xC < Width) && (yC >= 0 && yC < Height)) {
+        if ((xC >= 0 && xC < 90) && (yC >= 0 && yC < 50)) {
             titulo = tiles[xC][yC].description();
         }
 //        else if ((xC <= 0 && xC > Width) && (yC <= 0 && yC > Height)){

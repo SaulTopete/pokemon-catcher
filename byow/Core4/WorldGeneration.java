@@ -15,7 +15,8 @@ public class WorldGeneration {
     private final static String SOUTH_NORTH = "southnorth";
     //    private long Seed;
     private final Random random;
-    private final boolean[][] roomArea;
+    private final boolean[][] lightArea;
+
     private final ArrayList<RoomCoordinates> roomsList;
 
     private final Avatar avatar;
@@ -25,11 +26,12 @@ public class WorldGeneration {
     public static final TETile FLOORS = Tileset.FLOOR;
     public static final TETile WALLS = Tileset.WALL;
     public static final TETile OUTSIDE = Tileset.SAND;
+    public static final TETile DARKNESS = Tileset.NOTHING;
 
     public WorldGeneration(int width, int height) {
         this.width = width;
         this.height = height;
-        this.roomArea = new boolean[this.width][this.height];
+        this.lightArea = new boolean[this.width][this.height];
         this.roomsList = new ArrayList<>();
         this.random = new Random();
         this.avatar = new Avatar(Engine.WIDTH, Engine.HEIGHT);
@@ -78,15 +80,15 @@ public class WorldGeneration {
         pickups.getRandomSpots(tiles);
     }
 
-    public void moveAvatar(TETile[][] tiles, char letter) {
-        avatar.move(tiles, letter, avatar.getPosX(), avatar.getPosY(), Pickups.PICKUPS);
+    public boolean moveAvatar(TETile[][] lightTiles, TETile[][] darkTiles, char letter) {
+       return avatar.move(lightTiles, darkTiles, letter, avatar.getPosX(), avatar.getPosY(), Pickups.PICKUPS);
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
         for (int i = room.getStartX(); i <= room.getEndPointX(); i += 1) {
             for (int j = room.getStartY(); j <= room.getEndPointY(); j += 1) {
                 tiles[i][j] = FLOORS;
-                roomArea[i][j] = true;
+                lightArea[i][j] = true;
             }
         }
         roomsList.add(room);
@@ -102,7 +104,7 @@ public class WorldGeneration {
     private boolean isOverlapping(RoomCoordinates futureBuiltRoom) {
         for (int x = futureBuiltRoom.getStartX(); x <= futureBuiltRoom.getEndPointX(); x++) {
             for (int y = futureBuiltRoom.getStartY(); y <= futureBuiltRoom.getEndPointY(); y++) {
-                if (roomArea[x][y]) {
+                if (lightArea[x][y]) {
                     return true;
                 }
             }
@@ -143,7 +145,7 @@ public class WorldGeneration {
     public void printBoard() {
         for (int j = height - 1; j >= 0; j--) {
             for (int i = 0; i < width; i++) {
-                if (roomArea[i][j]) {
+                if (lightArea[i][j]) {
                     System.out.print(1 + " ");
                 } else {
                     System.out.print(0 + " ");
@@ -154,16 +156,6 @@ public class WorldGeneration {
     }
 
     public void drawHallway(TETile[][] tiles) {
-        /*
-        1. Get the data structure knowing which rooms to connect to what
-        2. Create boolean for each room to see if it connected to other room
-        3. Loop through the data structure for each room
-        4. if the boolean is false, connect the rooms and change the tiles
-        5. Change that specific boolean for the connection to true, so that
-           another connection doesn't happen for those rooms
-        6. Repeat steps 3-5
-         */
-
         for (int pos = 0; pos < roomsList.size() - 1; pos++) {
             int rm1MidX = roomsList.get(pos).getMidDimmX();
             int rm1MidY = roomsList.get(pos).getMidDimmY();
@@ -179,13 +171,13 @@ public class WorldGeneration {
             if (rmMinX == rm2MidX) {
                 for (int i = rmMinX; i <= rmMaxX; i++) {
                     tiles[i][rm1MidY] = FLOORS;
-                    roomArea[i][rm1MidY] = true;
+                    lightArea[i][rm1MidY] = true;
                     createHallwayWalls(tiles, i, rm1MidY, WEST_EAST);
                 }
             } else {
                 for (int i = rmMinX; i <= rmMaxX; i++) {
                     tiles[i][rm2MidY] = FLOORS;
-                    roomArea[i][rm2MidY] = true;
+                    lightArea[i][rm2MidY] = true;
                     createHallwayWalls(tiles, i, rm2MidY, WEST_EAST);
                 }
             }
@@ -193,13 +185,13 @@ public class WorldGeneration {
             if (rmMinY == rm2MidY) {
                 for (int i = rmMinY; i <= rmMaxY; i++) {
                     tiles[rmMinX][i] = FLOORS;
-                    roomArea[rmMinX][i] = true;
+                    lightArea[rmMinX][i] = true;
                     createHallwayWalls(tiles, rmMinX, i, SOUTH_NORTH);
                 }
             } else {
                 for (int i = rmMinY; i <= rmMaxY; i++) {
                     tiles[rmMinX][i] = FLOORS;
-                    roomArea[rmMinX][i] = true;
+                    lightArea[rmMinX][i] = true;
                     createHallwayWalls(tiles, rmMinX, i, SOUTH_NORTH);
                 }
             }
@@ -214,8 +206,7 @@ public class WorldGeneration {
             if (tiles[currX][currY - 1] == OUTSIDE) {
                 tiles[currX][currY - 1] = WALLS;
             }
-        }
-        else {
+        } else {
             if (tiles[currX + 1][currY] == OUTSIDE) {
                 tiles[currX + 1][currY] = WALLS;
             }
@@ -225,5 +216,17 @@ public class WorldGeneration {
         }
     }
 
+    public void darkenArea(TETile[][] lightTiles, TETile[][] darkTiles) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (lightTiles[x][y] == Avatar.AVATAR) {
+                    darkTiles[x][y] = Avatar.AVATAR;
+                }
+                else {
+                    darkTiles[x][y] = DARKNESS;
+                }
+            }
+        }
+    }
 }
 
