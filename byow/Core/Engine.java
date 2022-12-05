@@ -66,6 +66,7 @@ public class Engine {
         }
 
         TERenderer ter = new TERenderer();
+        FileSaver fs = new FileSaver();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] lightTiles = new TETile[WIDTH][HEIGHT];
         TETile[][] darkTiles = new TETile[WIDTH][HEIGHT];
@@ -109,6 +110,7 @@ public class Engine {
                     }
                     if (quitInput.equals(":Q")) {
                         gameOver = true;
+                        fs.save(newWorld, newWorld.getAvatarX(), newWorld.getAvatarY(), newWorld.getPickupsList(), newWorld.getRanEnvListPos(), newWorld.getRanPickupListPos());
                         System.exit(0);
                     }
                 }

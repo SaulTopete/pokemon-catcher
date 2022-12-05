@@ -3,7 +3,6 @@ package byow.Core;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -26,13 +25,13 @@ public class WorldGeneration {
 
     public static final TETile FLOORS = Tileset.FLOOR;
     public static final TETile WALLS = Tileset.WALL;
-    public static final TETile OUTSIDE = Tileset.SAND;
+    public static final TETile OUTSIDE_DEFAULT = Tileset.SAND;
 
-    private static final TETile[] LIST_ENVI = {Avatar.OUTSIDE_1, Avatar.OUTSIDE_2, Avatar.OUTSIDE_3, OUTSIDE};
+    private static final TETile[] LIST_ENVI = {Avatar.OUTSIDE_1, Avatar.OUTSIDE_2};
 
     public static final TETile DARKNESS = Tileset.NOTHING;
 
-    private int ran;
+    private int ranEnvPos;
 
     public WorldGeneration(int width, int height, int seed) {
         this.width = width;
@@ -43,13 +42,13 @@ public class WorldGeneration {
         this.avatar = new Avatar(Engine.WIDTH, Engine.HEIGHT);
         this.pickups = new Pickups(Engine.WIDTH, Engine.HEIGHT);
         this.Seed = seed;
-        ran = RandomUtils.uniform(random, 0, 4);
+        ranEnvPos = RandomUtils.uniform(random, 0, LIST_ENVI.length);
     }
 
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++)
-                tiles[x][y] = LIST_ENVI[ran];
+                tiles[x][y] = LIST_ENVI[ranEnvPos];
         }
     }
 
@@ -83,12 +82,32 @@ public class WorldGeneration {
         avatar.getRandomPos(tiles);
     }
 
+    public int getAvatarX() {
+        return avatar.getPosX();
+    }
+
+    public int getAvatarY() {
+        return avatar.getPosY();
+    }
+
+    public ArrayList<RoomCoordinates> getPickupsList() {
+        return pickups.getPickupPosList();
+    }
+
+    public int getRanEnvListPos() {
+        return ranEnvPos;
+    }
+
+    public int getRanPickupListPos() {
+        return pickups.getIconListPos();
+    }
+
     public void createPickups(TETile[][] tiles) {
         pickups.getRandomSpots(tiles);
     }
 
     public boolean moveAvatar(TETile[][] lightTiles, TETile[][] darkTiles, char letter) {
-       return avatar.move(lightTiles, darkTiles, letter, avatar.getPosX(), avatar.getPosY(), Pickups.PICKUPS);
+       return avatar.move(lightTiles, darkTiles, letter, avatar.getPosX(), avatar.getPosY(), pickups.getIcon());
     }
 
     private void fillRoomTiles(RoomCoordinates room, TETile[][] tiles) {
@@ -207,17 +226,17 @@ public class WorldGeneration {
 
     private void createHallwayWalls(TETile[][] tiles, int currX, int currY, String direction) {
         if (Objects.equals(direction, WEST_EAST)) {
-            if (tiles[currX][currY + 1] == LIST_ENVI[ran]) {
+            if (tiles[currX][currY + 1] == LIST_ENVI[ranEnvPos]) {
                 tiles[currX][currY + 1] = WALLS;
             }
-            if (tiles[currX][currY - 1] == LIST_ENVI[ran]) {
+            if (tiles[currX][currY - 1] == LIST_ENVI[ranEnvPos]) {
                 tiles[currX][currY - 1] = WALLS;
             }
         } else {
-            if (tiles[currX + 1][currY] == LIST_ENVI[ran]) {
+            if (tiles[currX + 1][currY] == LIST_ENVI[ranEnvPos]) {
                 tiles[currX + 1][currY] = WALLS;
             }
-            if (tiles[currX - 1][currY] == LIST_ENVI[ran]) {
+            if (tiles[currX - 1][currY] == LIST_ENVI[ranEnvPos]) {
                 tiles[currX - 1][currY] = WALLS;
             }
         }
@@ -234,6 +253,10 @@ public class WorldGeneration {
                 }
             }
         }
+    }
+
+    public boolean[][] getRoomArea() {
+        return lightArea;
     }
 }
 

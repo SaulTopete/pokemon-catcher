@@ -7,9 +7,8 @@ import java.awt.*;
 
 public class Avatar extends Icon {
     public static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\joshhug.jpg");
-    public static final TETile OUTSIDE_1 = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\piplup.png");
-    public static final TETile OUTSIDE_2 = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\snorlax.png");
-    public static final TETile OUTSIDE_3 = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\trubbish.png");
+    public static final TETile OUTSIDE_1 = new TETile(':', Color.RED, Color.WHITE, "tree", ".\\images\\minecraft_grass.jpg");
+    public static final TETile OUTSIDE_2 = new TETile('i', Color.BLUE, Color.WHITE, "grass", ".\\images\\stone.png");
 
     private static int score;
 

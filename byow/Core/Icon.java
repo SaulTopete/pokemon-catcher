@@ -14,7 +14,7 @@ public class Icon {
     private int DIM_X = 0;
     private int DIM_Y = 0;
 
-    private final TETile icon;
+    private TETile icon;
 
     public Icon(int dimmX, int dimmY, TETile icon) {
         this.DIM_X = dimmX;
@@ -36,6 +36,8 @@ public class Icon {
 
     private void setPosition(TETile[][] tiles, int posX, int posY, TETile icon) {
         tiles[posX][posY] = icon;
+        setPosX(posX);
+        setPosY(posY);
     }
 
     public int getPosX() {
@@ -52,5 +54,9 @@ public class Icon {
 
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+
+    public void setIcon(TETile icon) {
+        this.icon = icon;
     }
 }

@@ -3,11 +3,7 @@ package byow.Core;
 import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;
 import byow.TileEngine.TETile;
-import edu.princeton.cs.algs4.StdArrayIO;
 import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.introcs.StdRandom;
 
 import java.awt.*;
 
@@ -36,7 +32,7 @@ public class MenuControl {
         Font font = new Font("Monospaced", Font.ITALIC, 30);
         StdDraw.setFont(font);
 
-        StdDraw.text(this.Width / 2, this.Height / 2 + 7, "Pokemon Gatherer");
+        StdDraw.text(this.Width / 2, this.Height / 2 + 7, "Flower Gatherer");
 
         Font secondFont = new Font("Courier", Font.PLAIN, 25);
         StdDraw.setFont(secondFont);
