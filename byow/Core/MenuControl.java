@@ -144,8 +144,9 @@ public class MenuControl {
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.filledRectangle(Width, Height, this.Width, this.Height/13);
         StdDraw.setPenColor(StdDraw.WHITE);
-        StdDraw.text(Width + 12, Height - 1, "Name:" + name);
+        StdDraw.text(Width + 3, Height - 1, "Name:" + name);
         StdDraw.text(Width/ 2 - 5, Height - 1, "Location: " + titulo);
+        StdDraw.text(Width + 23, Height - 1, "Press 'F' for flashlight");
         StdDraw.text(Width/5 + 23, Height - 1, "Pokemon Captured: " + av);
         StdDraw.text(Width/2 + 19, Height - 1, "Steps Taken: " + av2);
         StdDraw.show();
