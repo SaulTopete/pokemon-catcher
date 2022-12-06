@@ -14,8 +14,10 @@ public class Avatar extends Icon {
 
     private static int stepsTaken;
 
-    public Avatar(int dimmX, int dimmY) {
-        super(dimmX, dimmY, AVATAR);
+    private int posX, posY;
+
+    public Avatar(int WIDTH, int HEIGHT) {
+        super(WIDTH, HEIGHT, AVATAR);
         score = 0;
         stepsTaken = 0;
     }

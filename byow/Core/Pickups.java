@@ -25,7 +25,7 @@ public class Pickups extends Icon {
 
     public final TETile PICKUP_ICON = LIST_PICKUPS[posNum];
 
-    private ArrayList<RoomCoordinates> pickupsPos = new ArrayList<>();
+    private ArrayList<RoomCoordinates> pickupsPositions = new ArrayList<>();
 
     public static final int NUM_OF_PICKUP_TO_END = 4;
 
@@ -43,13 +43,17 @@ public class Pickups extends Icon {
             if (set) {
                 count += 1;
                 rc = new RoomCoordinates(super.getPosX(), super.getPosY());
-                pickupsPos.add(rc);
+                pickupsPositions.add(rc);
             }
         }
     }
 
     public ArrayList<RoomCoordinates> getPickupPosList() {
-        return pickupsPos;
+        return pickupsPositions;
+    }
+
+    public void setPickupPosList(ArrayList<RoomCoordinates> list) {
+        pickupsPositions = list;
     }
 
     public TETile getIcon() {
@@ -58,5 +62,9 @@ public class Pickups extends Icon {
 
     public int getIconListPos() {
         return posNum;
+    }
+
+    public void setIconListPos(int value) {
+        posNum = value;
     }
 }

@@ -12,14 +12,15 @@ import java.util.ArrayList;
         - What environment is made of
  */
 
-public class FileSaver {
+public class SaveFile {
 
     private Out out;
-    private static final String FILENAME = ".\\save\\save.txt";
+    public static final String FILENAME = ".\\save\\save.txt";
 
-    public FileSaver() {
+    public SaveFile() {
         out = new Out(FILENAME);
     }
+
 
     public void save(WorldGeneration worldGeneration, int avatarX, int avatarY, ArrayList<RoomCoordinates> list, int ranEnv, int ranPickup) {
         saveTiles(worldGeneration.getRoomArea());
@@ -27,6 +28,13 @@ public class FileSaver {
         savePickupsIcon(ranPickup);
         savePickupsPos(list);
         saveEnvironmentIcon(ranEnv);
+
+//        this.wg = worldGeneration;
+//        this.aX = avatarX;
+//        this.aY = avatarY;
+//        this.list = list;
+//        this.ranEnvPos = ranEnv;
+//        this.ranPickupPosns = ranPickup;
     }
 
     private void saveTiles(boolean[][] lightTiles) {
@@ -34,8 +42,7 @@ public class FileSaver {
             for (int j = 0; j < Engine.WIDTH; j++) {
                 if (lightTiles[j][i]) {
                     out.print(1);
-                }
-                else {
+                } else {
                     out.print(0);
                 }
                 out.print(" ");

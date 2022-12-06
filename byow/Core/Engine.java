@@ -2,7 +2,6 @@ package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
-import edu.princeton.cs.algs4.StdAudio;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
@@ -66,11 +65,16 @@ public class Engine {
         }
 
         TERenderer ter = new TERenderer();
-        FileSaver fs = new FileSaver();
+        SaveFile fs;
+        LoadFile lf = new LoadFile();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] lightTiles = new TETile[WIDTH][HEIGHT];
         TETile[][] darkTiles = new TETile[WIDTH][HEIGHT];
         WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, seed);
+        newWorld.canvasFilledNothing(lightTiles);
+//        newWorld = new WorldGeneration(WIDTH, HEIGHT,
+//                lf.loadRoomsAreaList(), lf.loadAvatarX(), lf.loadAvatarY(),
+//                lf.loadPickupPosList(), lf.loadPickupsPos(), lf.loadEnvironmentPos());
         newWorld.canvasFilledNothing(lightTiles);
         newWorld.createRooms(lightTiles);
         newWorld.drawHallway(lightTiles);
@@ -110,6 +114,7 @@ public class Engine {
                     }
                     if (quitInput.equals(":Q")) {
                         gameOver = true;
+                        fs = new SaveFile();
                         fs.save(newWorld, newWorld.getAvatarX(), newWorld.getAvatarY(), newWorld.getPickupsList(), newWorld.getRanEnvListPos(), newWorld.getRanPickupListPos());
                         System.exit(0);
                     }

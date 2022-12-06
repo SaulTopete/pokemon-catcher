@@ -8,6 +8,8 @@ public class RoomCoordinates {
     private int endPointX;
     private int endPointY;
 
+    public RoomCoordinates(){}
+
     public RoomCoordinates(int startX, int startY, int dimmX, int dimmY) {
         this.startX = startX;
         this.startY = startY;

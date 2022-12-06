@@ -8,18 +8,18 @@ import java.util.Objects;
 import java.util.Random;
 
 public class WorldGeneration {
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
 
     private final static String WEST_EAST = "westeast";
     private final static String SOUTH_NORTH = "southnorth";
     private long Seed;
-    private final Random random;
-    private final boolean[][] lightArea;
+    private Random random;
+    private boolean[][] lightArea;
 
-    private final ArrayList<RoomCoordinates> roomsList;
+    private ArrayList<RoomCoordinates> roomsList;
 
-    private final Avatar avatar;
+    private Avatar avatar;
 
     private Pickups pickups;
 
@@ -31,7 +31,22 @@ public class WorldGeneration {
 
     public static final TETile DARKNESS = Tileset.NOTHING;
 
-    private int ranEnvPos;
+    private final int ranEnvPos;
+
+    public WorldGeneration(int width, int height, boolean[][] roomsArea, int avatarX,
+                           int avatarY, int pickupPosList, ArrayList<RoomCoordinates> pickupPos,
+                           int envPos) {
+        this.width = width;
+        this.height = height;
+        this.lightArea = roomsArea;
+        this.avatar = new Avatar(width, height);
+        this.pickups = new Pickups(Engine.WIDTH, Engine.HEIGHT);
+        setAvatarX(avatarX);
+        setAvatarY(avatarY);
+        pickups.setIconListPos(pickupPosList);
+        pickups.setPickupPosList(pickupPos);
+        ranEnvPos = envPos;
+    }
 
     public WorldGeneration(int width, int height, int seed) {
         this.width = width;
@@ -88,6 +103,14 @@ public class WorldGeneration {
 
     public int getAvatarY() {
         return avatar.getPosY();
+    }
+
+    public void setAvatarX(int val) {
+        avatar.setPosX(val);
+    }
+
+    public void setAvatarY(int val) {
+        avatar.setPosY(val);
     }
 
     public ArrayList<RoomCoordinates> getPickupsList() {
@@ -169,7 +192,7 @@ public class WorldGeneration {
     }
 
     public void printBoard() {
-        for (int j = height - 1; j >= 0; j--) {
+        for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 if (lightArea[i][j]) {
                     System.out.print(1 + " ");
