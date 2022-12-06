@@ -30,11 +30,17 @@ public class Engine {
 
         MenuControl mc = new MenuControl(50, 50, name);
         String teclado = mc.start();
+        TERenderer ter = new TERenderer();
+        SaveFile fs;
+        LoadFile lf = new LoadFile();
+        ter.initialize(WIDTH, HEIGHT);
+        TETile[][] lightTiles = new TETile[WIDTH][HEIGHT];
+        TETile[][] darkTiles = new TETile[WIDTH][HEIGHT];
+        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, seed);
+
         if(teclado.equals("N")) {
             String myString = "";
             StdDraw.clear(StdDraw.ORANGE);
-            Font font = new Font("Arial", Font.ROMAN_BASELINE, 40);
-            StdDraw.setFont(font);
             StdDraw.ellipse(24.4, 23.7, 23.9, 23.3);
             StdDraw.line(0, this.HEIGHT - 27.5, this.WIDTH + 4,this.HEIGHT - 27.5);
             StdDraw.filledEllipse(this.WIDTH / 2 - 20, this.HEIGHT/2 - 2, 5.2, 4);
@@ -45,12 +51,16 @@ public class Engine {
             StdDraw.show();
             mc.seedScreen(myString);
             StdDraw.show();
+
+            newWorld.canvasFilledNothing(lightTiles);
+            newWorld.createRooms(lightTiles);
+            newWorld.drawHallway(lightTiles);
+            newWorld.addAvatar(lightTiles);
+            newWorld.createPickups(lightTiles);
         }
-        if(teclado.equals("T")){
+        else if(teclado.equals("T")){
             String myString = "";
             StdDraw.clear(StdDraw.ORANGE);
-            Font font = new Font("Arial", Font.ROMAN_BASELINE, 40);
-            StdDraw.setFont(font);
             StdDraw.ellipse(24.4, 23.7, 23.9, 23.3);
             StdDraw.line(0, this.HEIGHT - 27.5, this.WIDTH + 4,this.HEIGHT - 27.5);
             StdDraw.filledEllipse(this.WIDTH / 2 - 20, this.HEIGHT/2 - 2, 5.2, 4);
@@ -62,24 +72,27 @@ public class Engine {
 
             name = mc.getNameTrainer(myString);
             StdDraw.show();
+
+            newWorld.canvasFilledNothing(lightTiles);
+            newWorld.createRooms(lightTiles);
+            newWorld.drawHallway(lightTiles);
+            newWorld.addAvatar(lightTiles);
+            newWorld.createPickups(lightTiles);
+        }
+        else if (teclado.equals("L")){
+            newWorld = new WorldGeneration(WIDTH, HEIGHT,
+                    lf.loadRoomsAreaList(), lf.loadAvatarX(), lf.loadAvatarY(),
+                    lf.loadPickupPosList(), lf.loadPickupsPos(), lf.loadEnvironmentPos());
+            newWorld.canvasFilledNothing(lightTiles);
+            newWorld.loadFloors(lightTiles);
+            newWorld.loadAvatar(lightTiles);
+            newWorld.loadPickups(lightTiles);
+            newWorld.darkenArea(lightTiles, darkTiles);
+        }
+        else if (teclado.equals("Q")) {
+            System.exit(0);
         }
 
-        TERenderer ter = new TERenderer();
-        SaveFile fs;
-        LoadFile lf = new LoadFile();
-        ter.initialize(WIDTH, HEIGHT);
-        TETile[][] lightTiles = new TETile[WIDTH][HEIGHT];
-        TETile[][] darkTiles = new TETile[WIDTH][HEIGHT];
-        WorldGeneration newWorld = new WorldGeneration(WIDTH, HEIGHT, seed);
-        newWorld.canvasFilledNothing(lightTiles);
-//        newWorld = new WorldGeneration(WIDTH, HEIGHT,
-//                lf.loadRoomsAreaList(), lf.loadAvatarX(), lf.loadAvatarY(),
-//                lf.loadPickupPosList(), lf.loadPickupsPos(), lf.loadEnvironmentPos());
-        newWorld.canvasFilledNothing(lightTiles);
-        newWorld.createRooms(lightTiles);
-        newWorld.drawHallway(lightTiles);
-        newWorld.addAvatar(lightTiles);
-        newWorld.createPickups(lightTiles);
         newWorld.darkenArea(lightTiles, darkTiles);
         newWorld.printBoard();
         ter.renderFrame(lightTiles);
@@ -127,6 +140,7 @@ public class Engine {
             stepsTaken = Avatar.getStepsTaken();
             pressed = false;
         }
+        System.exit(0);
     }
 
     /**

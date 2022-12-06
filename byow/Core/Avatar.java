@@ -6,15 +6,13 @@ import edu.princeton.cs.algs4.StdAudio;
 import java.awt.*;
 
 public class Avatar extends Icon {
-    public static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\joshhug.jpg");
+    public static final TETile AVATAR = new TETile('?', Color.CYAN, Color.WHITE, "trainer", ".\\images\\amongus.png");
     public static final TETile OUTSIDE_1 = new TETile(':', Color.RED, Color.WHITE, "tree", ".\\images\\minecraft_grass.jpg");
     public static final TETile OUTSIDE_2 = new TETile('i', Color.BLUE, Color.WHITE, "grass", ".\\images\\stone.png");
 
     private static int score;
 
     private static int stepsTaken;
-
-    private int posX, posY;
 
     public Avatar(int WIDTH, int HEIGHT) {
         super(WIDTH, HEIGHT, AVATAR);

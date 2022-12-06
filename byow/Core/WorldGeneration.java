@@ -60,6 +60,58 @@ public class WorldGeneration {
         ranEnvPos = RandomUtils.uniform(random, 0, LIST_ENVI.length);
     }
 
+    public void loadFloors(TETile[][] tiles) {
+        for (int i = 0; i < Engine.HEIGHT; i++) {
+            for (int j = 0; j < Engine.WIDTH; j++) {
+                if (lightArea[j][i]) {
+                    tiles[j][i] = FLOORS;
+                }
+            }
+        }
+        loadWalls(tiles);
+    }
+
+    private void loadWalls(TETile[][] tiles) {
+        for (int i = 0; i < Engine.HEIGHT; i++) {
+            for (int j = 0; j < Engine.WIDTH; j++) {
+                if (tiles[j][i] == FLOORS) {
+                    if (j + 1 < this.width) {
+                        if (tiles[j + 1][i] == LIST_ENVI[ranEnvPos]) {
+                            tiles[j + 1][i] = WALLS;
+                        }
+                    }
+                    if (j - 1 < this.width) {
+                        if (tiles[j - 1][i] == LIST_ENVI[ranEnvPos]) {
+                            tiles[j - 1][i] = WALLS;
+                        }
+                    }
+                    if (i + 1 < this.height) {
+                        if (tiles[j][i + 1] == LIST_ENVI[ranEnvPos]) {
+                            tiles[j][i + 1] = WALLS;
+                        }
+                    }
+                    if (i - 1 < this.height) {
+                        if (tiles[j][i - 1] == LIST_ENVI[ranEnvPos]) {
+                            tiles[j][i - 1] = WALLS;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void loadAvatar(TETile[][] tiles) {
+        tiles[avatar.getPosX()][avatar.getPosY()] = Avatar.AVATAR;
+    }
+
+    public void loadPickups(TETile[][] tiles) {
+        System.out.println(pickups.getPickupPosList().size());
+        for (int i = 0; i < pickups.getPickupPosList().size(); i++) {
+            tiles[pickups.getPickupPosList().get(i).getStartX()][pickups.getPickupPosList().get(i).getStartY()] =
+                    Pickups.LIST_PICKUPS[pickups.getIconListPos()];
+        }
+    }
+
     public void canvasFilledNothing(TETile[][] tiles) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++)

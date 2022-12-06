@@ -19,7 +19,7 @@ public class Pickups extends Icon {
     public static final TETile TRUBBISH = new TETile('?', Color.CYAN, Color.WHITE, "trubbish", ".\\images\\trubbish.png");
     public static final TETile SNORLAX = new TETile('?', Color.CYAN, Color.WHITE, "snorlax", ".\\images\\snorlax.png");
 
-    private static final TETile[] LIST_PICKUPS = {LOPUNNY, PIPLUP, TRUBBISH, SNORLAX};
+    public static final TETile[] LIST_PICKUPS = {LOPUNNY, PIPLUP, TRUBBISH, SNORLAX};
 
     private int posNum = RandomUtils.uniform(random, 0, LIST_PICKUPS.length);
 
@@ -40,9 +40,9 @@ public class Pickups extends Icon {
         boolean set;
         while (count < NUM_OF_PICKUP_TO_END) {
             set = super.getRandomPos(tiles);
+            rc = new RoomCoordinates(super.getPosX(), super.getPosY());
             if (set) {
                 count += 1;
-                rc = new RoomCoordinates(super.getPosX(), super.getPosY());
                 pickupsPositions.add(rc);
             }
         }
