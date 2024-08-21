@@ -4,8 +4,9 @@
   that ensure smooth gameplay and features for the player to interact with.
 </li>
 <h2>Can I see it in action?</h2>
-<li>Yes! The link is below ⬇️</li>
-<li>https://www.youtube.com/watch?v=dcADCdB-Uuo&t=108s</li>
+<li>Yes! The link is
+  <a href = "https://www.youtube.com/watch?v=dcADCdB-Uuo&t=108s">here</a>!
+</li>
 <h2>What makes this project special?</h2>
 <li>We can randomly generate a new world 100% of the time so the person playing doesn't get bored. They'll always surprised each time 
   they start a new game.</li>
